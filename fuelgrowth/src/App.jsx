@@ -1,14 +1,33 @@
 import React from "react";
-import { Dashboard } from "./pages";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Dashboard } from "./pages/Dashboard";
+import { Login } from "./pages/Login";
+import { Register } from "./pages/Register";
+import { RequireAuth } from "react-auth-kit";
+import { ROUTES } from "./constants/routes";
 
-{
-  /* <Sidebar></Sidebar> */
-}
-{
-  /* <ClientProvider></ClientProvider> - notification */
-}
+const { LOGIN, DASHBOARD, REGISTER } = ROUTES;
+const router = createBrowserRouter([
+  {
+    path: DASHBOARD,
+    element: (
+      <RequireAuth loginPath={LOGIN}>
+        <Dashboard />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: LOGIN,
+    element: <Login />,
+  },
+  {
+    path: REGISTER,
+    element: <Register />,
+  },
+]);
 
-const App = () => {
-  return <Dashboard />;
+export const App = () => {
+  return <RouterProvider router={router} />;
 };
+
 export default App;
