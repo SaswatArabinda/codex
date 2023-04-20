@@ -7,10 +7,10 @@ export const ChatInput = ({ messages, setMessage }) => {
   const [prompt, setPrompt] = useState("");
   const [response, setResponse] = useState("");
   const handleSubmit = async (e) => {
-    setMessage([...messages, { prompt, isChatGPT: false }]);
-    console.log(prompt, messages);
-    setPrompt("");
+    e.preventDefault();
 
+    setMessage([...messages, { prompt, isChatGPT: false }]);
+    setPrompt("");
     const response = await fetch("https://codex-2p0v.onrender.com", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -18,11 +18,9 @@ export const ChatInput = ({ messages, setMessage }) => {
         prompt: prompt,
       }),
     });
-
     if (response.ok) {
       const data = await response.json();
       const parsedData = data.bot.trim();
-
       console.log(parsedData);
       setResponse([{ prompt: parsedData, isChatGPT: true }]);
     } else {

@@ -5,7 +5,6 @@ import user from "../assets/user.svg";
 import TypeWriter from "typewriter-effect";
 
 export const Message = ({ message }) => {
-  console.log(message);
   const { isChatGPT, prompt } = message;
   return (
     <div className={`py-5 ${isChatGPT && "bg-[#dadbde]"}`}>
@@ -16,13 +15,16 @@ export const Message = ({ message }) => {
           <ComputerDesktopIcon className="h-8 w-8" />
         )}
 
-        {/* <p className="pt-1 text-sm ">{prompt}</p> */}
-        <p className="pt-1 text-sm ">
-          <TypeWriter
-            options={{ cursor: "", delay: 50 }}
-            onInit={(typeWriter) => typeWriter.typeString(prompt).start()}
-          />
-        </p>
+        {isChatGPT ? (
+          <p className="pt-1 text-sm ">
+            <TypeWriter
+              options={{ cursor: "", delay: 30 }}
+              onInit={(typeWriter) => typeWriter.typeString(prompt).start()}
+            />
+          </p>
+        ) : (
+          <p className="pt-1 text-sm ">{prompt}</p>
+        )}
       </div>
     </div>
   );

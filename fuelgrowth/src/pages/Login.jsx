@@ -13,7 +13,7 @@ export const Login = () => {
   const navigate = useNavigate();
   const [loginResponse, setLoginResponse] = useState();
 
-  const { REGISTER, DASHBOARD } = ROUTES;
+  const { REGISTER } = ROUTES;
   const {
     register,
     handleSubmit,

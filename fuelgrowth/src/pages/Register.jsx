@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import PhoneInput from "react-phone-input-2";
+// import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { registerUserSchema } from "../validations/registerUser";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -11,6 +11,8 @@ import { API_ROUTES, ROUTES } from "../constants/routes";
 import { FormErrorMessage } from "../components/FormErrorMessage";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignIn, useIsAuthenticated } from "react-auth-kit";
+import PI from "react-phone-input-2";
+const PhoneInput = PI.default ? PI.default : PI;
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -251,7 +253,6 @@ export const Register = () => {
                 >
                   Mobile number
                 </label>
-
                 <Controller
                   control={control}
                   name="phone"
