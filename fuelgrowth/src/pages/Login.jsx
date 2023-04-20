@@ -4,16 +4,17 @@ import { API_ROUTES, ROUTES } from "../constants/routes";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginUserSchema } from "../validations/loginUser";
 import { FormErrorMessage } from "../components/FormErrorMessage";
-import { useSignIn, useIsAuthenticated } from "react-auth-kit";
 import bcrypt from "bcryptjs";
 import { Link, redirect, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import authService from "../services/auth.service";
+import toast from "react-hot-toast";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const [loginResponse, setLoginResponse] = useState();
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const { REGISTER } = ROUTES;
+  const { REGISTER, DASHBOARD } = ROUTES;
   const {
     register,
     handleSubmit,
@@ -24,42 +25,20 @@ export const Login = () => {
   } = useForm({
     resolver: yupResolver(loginUserSchema),
   });
-  const { LOGIN } = API_ROUTES;
-  const isAuthenticated = useIsAuthenticated();
-  const signIn = useSignIn();
 
   const onSubmit = async (data) => {
-    const { email, password } = data;
-    const req = {
-      email: email,
-      password: password,
-    };
-
+    setIsSubmitted(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}${LOGIN}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(req),
-      });
-
-      const data = await response.json();
-      console.log("RESPONSE AFTER LOGIN", data);
-
-      if (
-        signIn({
-          token: data.access,
-          expiresIn: 3600,
-          tokenType: "Bearer",
-          authState: { email: email },
-        })
-      ) {
-        navigate("/");
+      const result = await authService.login(data);
+      if (result.data) {
+        navigate(DASHBOARD);
       }
-
-      console.log(data);
+      console.log("RESPONSE AFTER LOGIN", data);
     } catch (err) {
       console.log("ERROR: ", err);
+      toast.error(error.data.message);
     }
+    setIsSubmitted(false);
     reset();
   };
 
@@ -153,6 +132,7 @@ export const Login = () => {
               </div>
               <button
                 type="submit"
+                disabled={isSubmitted}
                 className="w-full text-white bg-[#2563eb] hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-[#2563eb] dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
                 Sign in

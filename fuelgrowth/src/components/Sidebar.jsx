@@ -1,6 +1,6 @@
 import React from "react";
 import NewChat from "./NewChat";
-import { PreviousChat } from "./PreviousChat";
+import { PreviousSessions } from "./PreviousSessions";
 
 export const Sidebar = () => {
   return (
@@ -13,10 +13,8 @@ export const Sidebar = () => {
         <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
           <ul className="space-y-2 font-medium">
             <NewChat />
-            <PreviousChat />
-            <PreviousChat />
-            <PreviousChat />
-            <PreviousChat />
+
+            <PreviousSessions />
           </ul>
           <div
             id="dropdown-cta"

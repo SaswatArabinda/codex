@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-// import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { registerUserSchema } from "../validations/registerUser";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,16 +9,19 @@ import { useEffect } from "react";
 import { API_ROUTES, ROUTES } from "../constants/routes";
 import { FormErrorMessage } from "../components/FormErrorMessage";
 import { Link, useNavigate } from "react-router-dom";
-import { useSignIn, useIsAuthenticated } from "react-auth-kit";
+
 import PI from "react-phone-input-2";
+import toast from "react-hot-toast";
+import authService from "../services/auth.service";
+
 const PhoneInput = PI.default ? PI.default : PI;
 
 export const Register = () => {
   const navigate = useNavigate();
   const [roles, setRoles] = useState();
+  const [isSubmitted, setIsSubmitted] = useState();
 
-  const { ROLES, REGISTER } = API_ROUTES;
-  const { LOGIN } = ROUTES;
+  const { LOGIN, DASHBOARD } = ROUTES;
   const {
     register,
     handleSubmit,
@@ -30,7 +32,7 @@ export const Register = () => {
   } = useForm({
     resolver: yupResolver(registerUserSchema),
   });
-  const signIn = useSignIn();
+
   const onSubmit = async (data) => {
     console.log({ data });
 
@@ -52,44 +54,32 @@ export const Register = () => {
     };
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}${REGISTER}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(req),
-        }
-      );
-
-      const data = await response.json();
-      console.log("RESPONSE AFTER REGISTER", data);
-      if (
-        signIn({
-          token: data.access,
-          expiresIn: 3600,
-          tokenType: "Bearer",
-          authState: { email: email },
-        })
-      ) {
-        navigate("/");
+      setIsSubmitted(true);
+      const result = await authService.register(req);
+      if (result.data) {
+        navigate(DASHBOARD);
       }
-
       console.log(data);
-    } catch (err) {
-      console.log("ERROR: ", err);
+    } catch (error) {
+      console.log("ERROR: ", error);
+      toast.error(error.data.message);
     }
+    setIsSubmitted(false);
     reset();
   };
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}${ROLES}`);
-        const data = await response.json();
-        console.log("RESPONSE AFTER LOGIN", data);
-        setRoles(data);
+        // const response = await fetch(`${import.meta.env.VITE_API_URL}${ROLES}`);
+        // const data = await response.json();
+        const result = await authService.getRoles();
+
+        console.log("RESPONSE AFTER LOGIN", result.data.results);
+        setRoles(result.data.results);
       } catch (err) {
         console.log("ERROR: ", err);
+        toast.error(error.data.message);
       }
     })();
   }, []);
@@ -226,6 +216,8 @@ export const Register = () => {
                 </label>
                 <Controller
                   name="role"
+                  control={control}
+                  rules={{ required: true }}
                   render={({ field: { ref, ...field } }) => (
                     <CreatableSelect
                       {...field}
@@ -238,8 +230,6 @@ export const Register = () => {
                       }}
                     />
                   )}
-                  control={control}
-                  rules={{ required: true }}
                 />
 
                 {errors.role && (
@@ -315,6 +305,7 @@ export const Register = () => {
               )}
               <button
                 type="submit"
+                disabled={isSubmitted}
                 className="w-full text-white bg-[#2563eb] hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-[#2563eb] dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
                 Create an account
