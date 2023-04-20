@@ -12,12 +12,6 @@ import { FormErrorMessage } from "../components/FormErrorMessage";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignIn, useIsAuthenticated } from "react-auth-kit";
 
-// const options = [
-//   { value: "chocolate", label: "Chocolate" },
-//   { value: "strawberry", label: "Strawberry" },
-//   { value: "vanilla", label: "Vanilla" },
-// ];
-
 export const Register = () => {
   const navigate = useNavigate();
   const [roles, setRoles] = useState();
@@ -86,12 +80,16 @@ export const Register = () => {
   };
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}${ROLES}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+    (async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}${ROLES}`);
+        const data = await response.json();
+        console.log("RESPONSE AFTER LOGIN", data);
         setRoles(data);
-      });
+      } catch (err) {
+        console.log("ERROR: ", err);
+      }
+    })();
   }, []);
 
   return (
@@ -225,12 +223,17 @@ export const Register = () => {
                   Select role
                 </label>
                 <Controller
-                  {...register("role")}
-                  render={({ field }) => (
+                  name="role"
+                  render={({ field: { ref, ...field } }) => (
                     <CreatableSelect
                       {...field}
                       options={roles}
                       isClearable={true}
+                      inputExtraProps={{
+                        ref,
+                        required: true,
+                        autoFocus: true,
+                      }}
                     />
                   )}
                   control={control}
@@ -248,27 +251,6 @@ export const Register = () => {
                 >
                   Mobile number
                 </label>
-
-                {/* <Controller
-                  {...register("phone")}
-                  render={({ field }) => (
-                    <PhoneInput
-                      {...field}
-                      country={"in"}
-                      {...register("phone")}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-[#2563eb] focus:border-[#2563eb] block w-full py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      inputStyle={{
-                        width: "100%",
-                        border: "none",
-                        background: "rgb(249 250 251 / var(--tw-bg-opacity))",
-                      }}
-                      value={phone}
-                      onChange={(phone) => setPhone(phone)}
-                    />
-                  )}
-                  control={control}
-                  rules={{ required: true }}
-                /> */}
 
                 <Controller
                   control={control}
@@ -296,18 +278,6 @@ export const Register = () => {
                   )}
                 />
 
-                {/* <PhoneInput
-                  country={"in"}
-                  {...register("phone")}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-[#2563eb] focus:border-[#2563eb] block w-full py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  inputStyle={{
-                    width: "100%",
-                    border: "none",
-                    background: "rgb(249 250 251 / var(--tw-bg-opacity))",
-                  }}
-                  value={phone}
-                  onChange={(phone) => setPhone(phone)}
-                /> */}
                 {errors.mobile && (
                   <FormErrorMessage errorMessage={errors.mobile?.message} />
                 )}
