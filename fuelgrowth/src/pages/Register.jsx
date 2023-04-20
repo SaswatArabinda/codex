@@ -71,8 +71,6 @@ export const Register = () => {
   useEffect(() => {
     (async () => {
       try {
-        // const response = await fetch(`${import.meta.env.VITE_API_URL}${ROLES}`);
-        // const data = await response.json();
         const result = await authService.getRoles();
 
         console.log("RESPONSE AFTER LOGIN", result.data.results);

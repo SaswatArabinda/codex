@@ -1,12 +1,14 @@
 import http from "../utils/http-client";
 import { API_ROUTES } from "../constants/routes";
 
-const { LOGIN, REGISTER, ROLES, LOGOUT, CHAT_SESSIONS } = API_ROUTES;
+const { LOGIN, REGISTER, ROLES, LOGOUT, CHAT_SESSIONS, DELETE_CHAT_SESSION } =
+  API_ROUTES;
 const login = (data) => {
   return http.post(LOGIN, data, {
     transformResponse: [
       (result) => {
         const parsed = JSON.parse(result);
+
         localStorage.setItem("authUser", JSON.stringify(parsed));
         return parsed;
       },
@@ -24,6 +26,10 @@ const getRoles = () => {
 
 const getChatSessions = () => {
   return http.get(CHAT_SESSIONS);
+};
+
+const deleteChatSession = (sessionId) => {
+  return http.deleteMethod(`${DELETE_CHAT_SESSION}${sessionId}`);
 };
 
 const logout = () => {
@@ -48,6 +54,7 @@ const methods = {
   getChatSessions,
   logout,
   getAuthUser,
+  deleteChatSession,
 };
 
 export default methods;

@@ -9,7 +9,7 @@ instance.interceptors.request.use(
   (config) => {
     const authUser = authService.getAuthUser();
     if (authUser) {
-      config.headers["authorization"] = `Bearer ${authUser.access_token}`;
+      config.headers["authorization"] = `Bearer ${authUser.access}`;
     }
     return config;
   },
@@ -35,7 +35,9 @@ instance.interceptors.response.use(
 const get = (url, params, config = {}) =>
   instance.get(url, { params, ...config });
 const post = (url, data, config = {}) => instance.post(url, data, config);
+const deleteMethod = (url, params, config = {}) =>
+  instance.delete(url, params, config);
 
-const methods = { get, post };
+const methods = { get, post, deleteMethod };
 
 export default methods;

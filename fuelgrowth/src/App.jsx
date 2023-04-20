@@ -14,7 +14,7 @@ const { LOGIN, DASHBOARD, REGISTER } = ROUTES;
 
 const PrivateRoute = ({ Component }) => {
   const authUser = authService.getAuthUser();
-  debugger;
+  console.log("Is authenticated", authUser);
   return authUser ? <Component /> : <Navigate to={LOGIN} replace />;
 };
 

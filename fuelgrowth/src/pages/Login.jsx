@@ -30,10 +30,11 @@ export const Login = () => {
     setIsSubmitted(true);
     try {
       const result = await authService.login(data);
+
+      console.log("RESPONSE AFTER LOGIN", result.data);
       if (result.data) {
         navigate(DASHBOARD);
       }
-      console.log("RESPONSE AFTER LOGIN", data);
     } catch (err) {
       console.log("ERROR: ", err);
       toast.error(error.data.message);

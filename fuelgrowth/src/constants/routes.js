@@ -4,6 +4,7 @@ export const API_ROUTES = {
   REGISTER: "v1/register/",
   LOGOUT: "v1/logout/",
   CHAT_SESSIONS: "v1/chat/sessions/",
+  DELETE_CHAT_SESSION: "v1/chat/sessions/",
 };
 
 export const ROUTES = {
