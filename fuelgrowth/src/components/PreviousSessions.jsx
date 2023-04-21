@@ -2,19 +2,21 @@ import React, { useState } from "react";
 import { ChatBubbleLeftIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import { useEffect } from "react";
-import { API_ROUTES } from "../constants/routes";
 import toast from "react-hot-toast";
 import authService from "../services/auth.service";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { removeSession, setSessions } from "../redux/sessions/actions";
 
 export const PreviousSessions = () => {
-  const [sessions, setSessions] = useState();
+  const dispatch = useDispatch();
+  const sessionsState = useSelector((state) => state.sessions);
+  const { sessions } = sessionsState;
   const handleDelete = async (chatSessionId, e) => {
     try {
       const result = await authService.deleteChatSession(chatSessionId);
       console.log("Post delete", result);
-      setSessions(
-        sessions.filter((session) => session.chat_session_id !== chatSessionId)
-      );
+      dispatch(removeSession(chatSessionId));
     } catch (error) {
       console.log("ERROR: ", error);
       toast.error(error.data.message);
@@ -25,8 +27,7 @@ export const PreviousSessions = () => {
       try {
         const result = await authService.getChatSessions();
 
-        console.log("sessions", result.data.results);
-        setSessions(result.data.results);
+        dispatch(setSessions(result.data.results));
       } catch (error) {
         console.log("ERROR: ", error);
         toast.error(error.data.message);
