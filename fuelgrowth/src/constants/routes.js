@@ -5,10 +5,12 @@ export const API_ROUTES = {
   LOGOUT: "v1/logout/",
   CHAT_SESSIONS: "v1/chat/sessions/",
   DELETE_CHAT_SESSION: "v1/chat/sessions/",
+  CREATE_SESSION: "v1/chat/sessions/",
 };
 
 export const ROUTES = {
   DASHBOARD: "/",
   LOGIN: "/login",
   REGISTER: "/register",
+  CHAT_PAGE: "/chat/:sessionId",
 };

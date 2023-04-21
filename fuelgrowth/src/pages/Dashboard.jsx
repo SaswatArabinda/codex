@@ -1,5 +1,5 @@
 import React from "react";
-import Container from "../components/Container";
+import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 
@@ -8,7 +8,7 @@ export const Dashboard = () => {
     <>
       <Header />
       <Sidebar />
-      <Container />
+      <Outlet />
     </>
   );
 };

@@ -27,8 +27,9 @@ export const sessionReducer = (state = initialState, action) => {
     }
     case ADD_SESSION: {
       const { session } = action.data;
+
       return {
-        sessions: [...state.sessions, ...session],
+        sessions: [session, ...state.sessions],
       };
       break;
     }

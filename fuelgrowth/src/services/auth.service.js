@@ -1,8 +1,16 @@
 import http from "../utils/http-client";
 import { API_ROUTES } from "../constants/routes";
 
-const { LOGIN, REGISTER, ROLES, LOGOUT, CHAT_SESSIONS, DELETE_CHAT_SESSION } =
-  API_ROUTES;
+const {
+  LOGIN,
+  REGISTER,
+  ROLES,
+  LOGOUT,
+  CHAT_SESSIONS,
+  DELETE_CHAT_SESSION,
+  CREATE_SESSION,
+} = API_ROUTES;
+
 const login = (data) => {
   return http.post(LOGIN, data, {
     transformResponse: [
@@ -32,6 +40,10 @@ const deleteChatSession = (sessionId) => {
   return http.deleteMethod(`${DELETE_CHAT_SESSION}${sessionId}`);
 };
 
+const createSessionWithoutPrompt = () => {
+  return http.post(CREATE_SESSION);
+};
+
 const logout = () => {
   return http.get(LOGOUT, null, {
     transformResponse: [
@@ -55,6 +67,7 @@ const methods = {
   logout,
   getAuthUser,
   deleteChatSession,
+  createSessionWithoutPrompt,
 };
 
 export default methods;

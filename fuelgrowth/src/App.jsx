@@ -9,8 +9,9 @@ import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { ROUTES } from "./constants/routes";
 import authService from "./services/auth.service.js";
+import ChatPage from "./components/ChatPage";
 
-const { LOGIN, DASHBOARD, REGISTER } = ROUTES;
+const { LOGIN, DASHBOARD, REGISTER, CHAT_PAGE } = ROUTES;
 
 const PrivateRoute = ({ Component }) => {
   const authUser = authService.getAuthUser();
@@ -22,6 +23,13 @@ const router = createBrowserRouter([
   {
     path: DASHBOARD,
     element: <PrivateRoute Component={Dashboard} />,
+    children: [
+      {
+        path: CHAT_PAGE,
+        element: <ChatPage />,
+        // loader: teamLoader,
+      },
+    ],
   },
   {
     path: LOGIN,
