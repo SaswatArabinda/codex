@@ -5,6 +5,7 @@ import {
   addPromptMessage,
   assignSessionID,
 } from "../redux/messages/action";
+import { setSessions } from "../redux/sessions/actions";
 import authService from "../services/auth.service";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import React from "react";
@@ -57,7 +58,14 @@ export const ChatInput = () => {
         })
       );
       // update the session store
-      useChatSessions();
+      try {
+        const result = await authService.getChatSessions();
+
+        dispatch(setSessions(result.data.results));
+      } catch (error) {
+        console.log("ERROR: ", error);
+        toast.error(error.statusText || error.message);
+      }
     }
 
     setPrompt("");

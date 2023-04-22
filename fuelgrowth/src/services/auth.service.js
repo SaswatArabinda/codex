@@ -64,7 +64,7 @@ const createNewChatSession = (data) => {
 };
 
 const logout = () => {
-  return http.get(LOGOUT, null, {
+  return http.post(LOGOUT, null, {
     transformResponse: [
       (result) => {
         localStorage.removeItem("authUser");
