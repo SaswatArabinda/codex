@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-import { API_ROUTES, ROUTES } from "../constants/routes";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { loginUserSchema } from "../validations/loginUser";
 import { FormErrorMessage } from "../components/FormErrorMessage";
-import bcrypt from "bcryptjs";
-import { Link, redirect, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { API_ROUTES, ROUTES } from "../constants/routes";
 import authService from "../services/auth.service";
+import { loginUserSchema } from "../validations/loginUser";
+import { yupResolver } from "@hookform/resolvers/yup";
+import bcrypt from "bcryptjs";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
+import { Link, redirect, useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -31,13 +31,12 @@ export const Login = () => {
     try {
       const result = await authService.login(data);
 
-      console.log("RESPONSE AFTER LOGIN", result.data);
       if (result.data) {
         navigate(DASHBOARD);
       }
-    } catch (err) {
-      console.log("ERROR: ", err);
-      toast.error(error.data.message);
+    } catch (error) {
+      console.log("ERROR: ", error);
+      toast.error(error.statusText || error.message);
     }
     setIsSubmitted(false);
     reset();

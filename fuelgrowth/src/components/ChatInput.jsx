@@ -1,36 +1,67 @@
+import { ROUTES } from "../constants/routes";
+import {
+  addMessage,
+  addPromptMessage,
+  assignSessionID,
+} from "../redux/messages/action";
+import authService from "../services/auth.service";
+import { createHash } from "../utils/createHash";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { generatePath, useNavigate, useParams } from "react-router-dom";
 
-export const ChatInput = ({ messages, setMessage }) => {
+export const ChatInput = () => {
+  const { CHAT_PAGE } = ROUTES;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { sessionId } = useParams();
   const [prompt, setPrompt] = useState("");
-  const [response, setResponse] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (sessionId) {
+      // Incase of existing session, call addMessageToSession
+      try {
+        dispatch(addPromptMessage(sessionId, prompt));
+        const result = await authService.addMessageToSession(sessionId, {
+          content: prompt,
+          is_prompt: true,
+        });
 
-    setMessage([...messages, { prompt, isChatGPT: false }]);
-    setPrompt("");
-    const response = await fetch("https://codex-2p0v.onrender.com", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        prompt: prompt,
-      }),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      const parsedData = data.bot.trim();
-      console.log(parsedData);
-      setResponse([{ prompt: parsedData, isChatGPT: true }]);
+        dispatch(addMessage(sessionId, result.data));
+      } catch (error) {
+        console.log("ERROR: ", error);
+        toast.error(error.statusText || error.message);
+      }
     } else {
-      setResponse([{ prompt: "Something went wrong", isChatGPT: true }]);
-    }
-  };
+      // Create a new session and add message to that session
+      const newSessionId = `__session__`;
+      dispatch(addPromptMessage(newSessionId, prompt));
+      const result = await authService.createNewChatSession({
+        content: prompt,
+        is_prompt: true,
+      });
 
-  useEffect(() => {
-    setMessage([...messages, ...response]);
-  }, [response]);
+      // Replace the session with ID: __session__ with newly created session
+      const { session_id } = result.data;
+      dispatch(assignSessionID(session_id));
+      // Add message to the session
+      dispatch(addMessage(session_id, result.data));
+      // Redirect the user to the new session
+      navigate(
+        generatePath(CHAT_PAGE, {
+          sessionId: session_id,
+        })
+      );
+      // update the session store
+    }
+
+    setPrompt("");
+  };
 
   return (
     <div className="bg-gray-300/50  rounded-lg text-sm flex">

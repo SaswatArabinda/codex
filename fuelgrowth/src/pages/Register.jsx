@@ -1,18 +1,17 @@
-import React from "react";
-import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-import "react-phone-input-2/lib/style.css";
+import { FormErrorMessage } from "../components/FormErrorMessage";
+import { API_ROUTES, ROUTES } from "../constants/routes";
+import authService from "../services/auth.service";
 import { registerUserSchema } from "../validations/registerUser";
 import { yupResolver } from "@hookform/resolvers/yup";
-import CreatableSelect from "react-select/creatable";
+import React from "react";
+import { useState } from "react";
 import { useEffect } from "react";
-import { API_ROUTES, ROUTES } from "../constants/routes";
-import { FormErrorMessage } from "../components/FormErrorMessage";
-import { Link, useNavigate } from "react-router-dom";
-
-import PI from "react-phone-input-2";
+import { useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
-import authService from "../services/auth.service";
+import PI from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { Link, useNavigate } from "react-router-dom";
+import CreatableSelect from "react-select/creatable";
 
 const PhoneInput = PI.default ? PI.default : PI;
 
@@ -34,8 +33,6 @@ export const Register = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log({ data });
-
     const {
       email,
       fname,
@@ -59,10 +56,9 @@ export const Register = () => {
       if (result.data) {
         navigate(DASHBOARD);
       }
-      console.log(data);
     } catch (error) {
       console.log("ERROR: ", error);
-      toast.error(error.data.message);
+      toast.error(error.statusText || error.message);
     }
     setIsSubmitted(false);
     reset();
@@ -73,11 +69,10 @@ export const Register = () => {
       try {
         const result = await authService.getRoles();
 
-        console.log("RESPONSE AFTER LOGIN", result.data.results);
         setRoles(result.data.results);
-      } catch (err) {
-        console.log("ERROR: ", err);
-        toast.error(error.data.message);
+      } catch (error) {
+        console.log("ERROR: ", error);
+        toast.error(error.statusText || error.message);
       }
     })();
   }, []);

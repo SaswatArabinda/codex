@@ -1,4 +1,3 @@
-import { combineReducers } from "redux";
 import {
   GET_SESSIONS,
   SET_SESSIONS,

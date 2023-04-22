@@ -1,5 +1,6 @@
-import http from "../utils/http-client";
 import { API_ROUTES } from "../constants/routes";
+import http from "../utils/http-client";
+import { generatePath } from "react-router-dom";
 
 const {
   LOGIN,
@@ -9,6 +10,9 @@ const {
   CHAT_SESSIONS,
   DELETE_CHAT_SESSION,
   CREATE_SESSION,
+  GET_MESSAGES_BY_SESSION,
+  ADD_MESSAGE_TO_SESSION,
+  CREATE_NEW_CHAT_SESSION,
 } = API_ROUTES;
 
 const login = (data) => {
@@ -44,6 +48,21 @@ const createSessionWithoutPrompt = () => {
   return http.post(CREATE_SESSION);
 };
 
+const getMessagesBySession = (sessionId) => {
+  return http.get(generatePath(GET_MESSAGES_BY_SESSION, { sessionId }));
+};
+
+const addMessageToSession = (sessionId, data) => {
+  return http.post(
+    `${generatePath(ADD_MESSAGE_TO_SESSION, { sessionId })}/`,
+    data
+  );
+};
+
+const createNewChatSession = (data) => {
+  return http.post(CREATE_NEW_CHAT_SESSION, data);
+};
+
 const logout = () => {
   return http.get(LOGOUT, null, {
     transformResponse: [
@@ -68,6 +87,9 @@ const methods = {
   getAuthUser,
   deleteChatSession,
   createSessionWithoutPrompt,
+  getMessagesBySession,
+  addMessageToSession,
+  createNewChatSession,
 };
 
 export default methods;

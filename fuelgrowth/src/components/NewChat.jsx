@@ -1,10 +1,11 @@
-import { PlusIcon } from "@heroicons/react/24/solid";
-import React from "react";
-import { useDispatch } from "react-redux";
-import { generatePath, useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routes";
 import { addSession } from "../redux/sessions/actions";
 import authService from "../services/auth.service";
+import { PlusIcon } from "@heroicons/react/24/solid";
+import React from "react";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { generatePath, useNavigate } from "react-router-dom";
 
 export default function NewChat() {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ export default function NewChat() {
     e.preventDefault();
     try {
       const result = await authService.createSessionWithoutPrompt();
-      console.log("onSuccess of creating new session", result.data);
+
       dispatch(addSession(result.data));
 
       const { chat_session_id } = result.data;
@@ -25,7 +26,7 @@ export default function NewChat() {
       );
     } catch (error) {
       console.log("ERROR: ", error);
-      toast.error(error.data.message);
+      toast.error(error.statusText || error.message);
     }
   };
   return (

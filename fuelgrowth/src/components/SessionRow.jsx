@@ -16,7 +16,7 @@ export const SessionRow = ({
   updated,
 }) => {
   const [isActive, setActive] = useState(false);
-  let { sessionId } = useParams();
+  const { sessionId } = useParams();
   const dispatch = useDispatch();
 
   const { CHAT_PAGE } = ROUTES;
@@ -24,11 +24,11 @@ export const SessionRow = ({
     e.preventDefault();
     try {
       const result = await authService.deleteChatSession(chatSessionId);
-      console.log("Post delete", result);
+
       dispatch(removeSession(chatSessionId));
     } catch (error) {
       console.log("ERROR: ", error);
-      toast.error(error.data.message);
+      toast.error(error.statusText || error.message);
     }
   };
 
