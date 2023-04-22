@@ -13,7 +13,7 @@ export const Header = () => {
       authService.logout();
       navigate(LOGIN);
     } catch (error) {
-      toast.error(error.statusText || error.message);
+      toast.error(error?.statusText || error?.message);
     }
   };
   return (

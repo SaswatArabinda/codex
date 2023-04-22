@@ -26,7 +26,7 @@ export default function NewChat() {
       );
     } catch (error) {
       console.log("ERROR: ", error);
-      toast.error(error.statusText || error.message);
+      toast.error(error?.statusText || error?.message);
     }
   };
   return (

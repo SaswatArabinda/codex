@@ -35,7 +35,7 @@ export const ChatInput = () => {
         dispatch(addMessage(sessionId, result.data));
       } catch (error) {
         console.log("ERROR: ", error);
-        toast.error(error.statusText || error.message);
+        toast.error(error?.statusText || error?.message);
       }
     } else {
       // Create a new session and add message to that session
@@ -64,7 +64,7 @@ export const ChatInput = () => {
         dispatch(setSessions(result.data.results));
       } catch (error) {
         console.log("ERROR: ", error);
-        toast.error(error.statusText || error.message);
+        toast.error(error?.statusText || error?.message);
       }
     }
 

@@ -28,7 +28,7 @@ export const SessionRow = ({
       dispatch(removeSession(chatSessionId));
     } catch (error) {
       console.log("ERROR: ", error);
-      toast.error(error.statusText || error.message);
+      toast.error(error?.statusText || error?.message);
     }
   };
 

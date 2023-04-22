@@ -58,7 +58,7 @@ export const Register = () => {
       }
     } catch (error) {
       console.log("ERROR: ", error);
-      toast.error(error.statusText || error.message);
+      toast.error(error?.statusText || error?.message);
     }
     setIsSubmitted(false);
     reset();
@@ -72,7 +72,7 @@ export const Register = () => {
         setRoles(result.data.results);
       } catch (error) {
         console.log("ERROR: ", error);
-        toast.error(error.statusText || error.message);
+        toast.error(error?.statusText || error?.message);
       }
     })();
   }, []);

@@ -4,16 +4,23 @@ import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import authService from "./services/auth.service.js";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
   Navigate,
 } from "react-router-dom";
 
+import { initFlowbite } from "flowbite";
+
 const { LOGIN, DASHBOARD, REGISTER, CHAT_PAGE } = ROUTES;
 
 const PrivateRoute = ({ Component }) => {
+  // TODO: move it to common page layout component
+  useEffect(() => {
+    console.log("INIT CALLED");
+    initFlowbite();
+  });
   const authUser = authService.getAuthUser();
   return authUser ? <Component /> : <Navigate to={LOGIN} replace />;
 };
@@ -46,6 +53,10 @@ const router = createBrowserRouter([
 ]);
 
 export const App = () => {
+  // useEffect(() => {
+  //   console.log("INIT CALLED");
+  //   initFlowbite();
+  // });
   return <RouterProvider router={router} />;
 };
 

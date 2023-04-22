@@ -11,6 +11,6 @@ export const useChatSessions = async () => {
     dispatch(setSessions(result.data.results));
   } catch (error) {
     console.log("ERROR: ", error);
-    toast.error(error.statusText || error.message);
+    toast.error(error?.statusText || error?.message);
   }
 };
