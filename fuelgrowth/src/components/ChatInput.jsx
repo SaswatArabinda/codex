@@ -1,17 +1,16 @@
 import { ROUTES } from "../constants/routes";
+import { useChatSessions } from "../hooks/useChatSessions";
 import {
   addMessage,
   addPromptMessage,
   assignSessionID,
 } from "../redux/messages/action";
 import authService from "../services/auth.service";
-import { createHash } from "../utils/createHash";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import React from "react";
-import { useEffect } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { generatePath, useNavigate, useParams } from "react-router-dom";
 
 export const ChatInput = () => {
@@ -58,6 +57,7 @@ export const ChatInput = () => {
         })
       );
       // update the session store
+      useChatSessions();
     }
 
     setPrompt("");

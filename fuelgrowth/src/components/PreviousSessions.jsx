@@ -1,18 +1,15 @@
-import { removeSession, setSessions } from "../redux/sessions/actions";
+import { setSessions } from "../redux/sessions/actions";
 import authService from "../services/auth.service";
 import { SessionRow } from "./SessionRow";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { generatePath, useNavigate, useParams } from "react-router-dom";
 
 export const PreviousSessions = () => {
   const dispatch = useDispatch();
   const sessionsState = useSelector((state) => state.sessions);
   const { sessions } = sessionsState;
-  // TODO: This is wrong way of refreshing the side bar
-  const { sessionId } = useParams();
 
   useEffect(() => {
     (async () => {
@@ -25,7 +22,7 @@ export const PreviousSessions = () => {
         toast.error(error.statusText || error.message);
       }
     })();
-  }, [sessionId]);
+  }, []);
 
   return (
     <>

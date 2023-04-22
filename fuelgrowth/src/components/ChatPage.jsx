@@ -3,7 +3,7 @@ import authService from "../services/auth.service";
 import { Chat } from "./Chat";
 import { ChatInput } from "./ChatInput";
 import { ChatWelcome } from "./ChatWelcome";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";

@@ -1,8 +1,7 @@
-import bot from "../assets/bot.svg";
-import user from "../assets/user.svg";
 import { ComputerDesktopIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import React from "react";
-import TypeWriter from "typewriter-effect";
+
+// import TypeWriter from "typewriter-effect";
 
 export const Message = ({ message }) => {
   const { chat_message_id, content, is_prompt } = message;

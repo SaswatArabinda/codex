@@ -1,6 +1,6 @@
-import React from "react";
 import NewChat from "./NewChat";
 import { PreviousSessions } from "./PreviousSessions";
+import React from "react";
 
 export const Sidebar = () => {
   return (
