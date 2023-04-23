@@ -44,7 +44,7 @@ export const ChatPage = () => {
 
   return (
     <>
-      <div className="p-4 md:ml-64 mt-14 overflow-hidden">
+      <div className="p-4 w-full mt-14 overflow-hidden">
         <div
           // className="p-4 border-2 border-gray-200 rounded-lg dark:border-gray-700 h-full "
           style={{ height: "90vh" }}

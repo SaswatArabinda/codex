@@ -19,4 +19,5 @@ export const ROUTES = {
   LOGIN: "/login",
   REGISTER: "/register",
   CHAT_PAGE: "/chat/:sessionId",
+  INTEGRATION: "/integration",
 };

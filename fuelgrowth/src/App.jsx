@@ -12,8 +12,9 @@ import {
 } from "react-router-dom";
 
 import { initFlowbite } from "flowbite";
+import { Integration } from "./pages/Integration";
 
-const { LOGIN, DASHBOARD, REGISTER, CHAT_PAGE } = ROUTES;
+const { LOGIN, DASHBOARD, REGISTER, CHAT_PAGE, INTEGRATION } = ROUTES;
 
 const PrivateRoute = ({ Component }) => {
   // TODO: move it to common page layout component
@@ -38,6 +39,11 @@ const router = createBrowserRouter([
       {
         path: CHAT_PAGE,
         element: <ChatPage />,
+        // loader: teamLoader,
+      },
+      {
+        path: INTEGRATION,
+        element: <Integration />,
         // loader: teamLoader,
       },
     ],

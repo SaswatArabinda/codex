@@ -7,8 +7,10 @@ export const Dashboard = () => {
   return (
     <>
       <Header />
-      <Sidebar />
-      <Outlet />
+      <div className="flex">
+        <Sidebar />
+        <Outlet />
+      </div>
     </>
   );
 };
