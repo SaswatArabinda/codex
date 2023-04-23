@@ -13,6 +13,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { generatePath, useNavigate, useParams } from "react-router-dom";
+import { NEW_SESSION } from "../constants/constant";
 
 export const ChatInput = () => {
   const { CHAT_PAGE } = ROUTES;
@@ -39,8 +40,7 @@ export const ChatInput = () => {
       }
     } else {
       // Create a new session and add message to that session
-      const newSessionId = `__session__`;
-      dispatch(addPromptMessage(newSessionId, prompt));
+      dispatch(addPromptMessage(NEW_SESSION, prompt));
       const result = await authService.createNewChatSession({
         content: prompt,
         is_prompt: true,

@@ -1,5 +1,10 @@
 import { ComputerDesktopIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import React from "react";
+import {
+  LineChartComponent,
+  BarChartComponent,
+  PieChartComponent,
+} from "./ChartMessage";
 
 // import TypeWriter from "typewriter-effect";
 
@@ -9,14 +14,26 @@ export const Message = ({ message }) => {
 
   return (
     <div className={`py-5 ${!is_prompt && "bg-[#dadbde]"}`}>
-      <div className="flex space-x-5 px-10 max-w-2xl mx-auto">
+      <div className="flex space-x-2 md:space-x-5 px-2 md:px-5 max-w-3xl mx-auto">
         {is_prompt ? (
-          <UserCircleIcon className="h-8 w-8" />
+          <UserCircleIcon
+            className="md:h-8 md:w-8 h-6 w-6"
+            style={{ minWidth: "1.5rem", minHeight: "1.5rem" }}
+          />
         ) : (
-          <ComputerDesktopIcon className="h-8 w-8" />
+          <ComputerDesktopIcon
+            className="md:h-8 md:w-8 h-6 w-6"
+            style={{ minWidth: "1.5rem", minHeight: "1.5rem" }}
+          />
         )}
 
-        <p className="pt-1 text-sm ">{data}</p>
+        {type === "LINE_CHART" && <LineChartComponent data={data} />}
+        {type === "BAR_CHART" && <BarChartComponent data={data} />}
+        {type === "PIE_CHART" && <PieChartComponent data={data} />}
+
+        {type === "STRING" && <p className="pt-1 text-sm ">{data}</p>}
+
+        {/* <p className="pt-1 text-sm ">{data}</p> */}
         {/* {is_prompt ? (
           
         ) : (

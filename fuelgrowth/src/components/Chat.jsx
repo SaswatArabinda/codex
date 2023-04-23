@@ -12,7 +12,7 @@ export const Chat = ({ messages }) => {
   useEffect(() => scrollToBottom());
 
   return (
-    <div className="flex-1 overflow-auto mb-1">
+    <div className="flex-1 overflow-auto mb-1 overflow-x-hidden">
       {messages.map((message) => (
         <Message key={message.chat_message_id} message={message} />
       ))}

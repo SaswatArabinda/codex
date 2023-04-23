@@ -7,6 +7,7 @@ import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { NEW_SESSION } from "../constants/constant";
 
 // Chat
 // Chat Input
@@ -38,12 +39,12 @@ export const ChatPage = () => {
     messages = messagesState.messages[sessionId];
   } else {
     // Home page - Dashboard messages
-    messages = messagesState.messages["__session__"];
+    messages = messagesState.messages[NEW_SESSION];
   }
 
   return (
     <>
-      <div className="p-4 sm:ml-64 mt-14 overflow-hidden">
+      <div className="p-4 md:ml-64 mt-14 overflow-hidden">
         <div
           // className="p-4 border-2 border-gray-200 rounded-lg dark:border-gray-700 h-full "
           style={{ height: "90vh" }}

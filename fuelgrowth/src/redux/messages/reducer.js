@@ -1,3 +1,4 @@
+import { NEW_SESSION } from "../../constants/constant";
 import { ADD_MESSAGE, SET_MESSAGES, ASSIGN_SESSION_ID } from "./actionTypes";
 
 const initialState = {
@@ -28,8 +29,8 @@ export const messageReducer = (state = initialState, action) => {
       const { sessionId } = action.data;
       // const newlyCreatedSession = state.messages["__session__"] ?? [];
       const messages = { ...state.messages };
-      messages[sessionId] = state.messages["__session__"] ?? [];
-      delete messages["__session__"];
+      messages[sessionId] = state.messages[NEW_SESSION] ?? [];
+      delete messages[NEW_SESSION];
 
       return {
         messages: { ...messages },
