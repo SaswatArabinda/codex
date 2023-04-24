@@ -6,7 +6,7 @@ import {
   PieChartComponent,
 } from "./ReactCharts";
 import { TableMessage } from "./ReactTable";
-import { ChatLoader } from "./ChatLoader";
+import { ChatLoader } from "./Loader";
 
 // import TypeWriter from "typewriter-effect";
 

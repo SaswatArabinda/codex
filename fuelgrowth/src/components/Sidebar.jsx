@@ -86,7 +86,7 @@ export const Sidebar = () => {
             </li>
           </ul>
         </div>
-        {/*transform transition-width transition-transform -translate-x-full w-0 px-0 */}
+        {/*SECONDARY SIDE NAV*/}
         <div
           className={`h-full  pb-4 overflow-y-auto pt-20 bg-white dark:bg-gray-800 z-10 transform transition-all  ${
             isSecondSidebarEnabled

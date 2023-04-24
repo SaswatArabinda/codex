@@ -5,11 +5,13 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import { Spinner } from "flowbite-react";
 
 export const PreviousSessions = () => {
   const dispatch = useDispatch();
   const sessionsState = useSelector((state) => state.sessions);
   const { sessions } = sessionsState;
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -21,8 +23,17 @@ export const PreviousSessions = () => {
         console.log("ERROR: ", error);
         toast.error(error?.statusText || error?.message);
       }
+      setLoading(false);
     })();
-  }, []);
+  }, [setLoading]);
+
+  if (isLoading) {
+    return (
+      <div className="text-center mt-10">
+        <Spinner aria-label="Center-aligned spinner example" />
+      </div>
+    );
+  }
 
   return (
     <>
