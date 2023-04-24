@@ -4,7 +4,8 @@ import {
   LineChartComponent,
   BarChartComponent,
   PieChartComponent,
-} from "./ChartMessage";
+} from "./ReactCharts";
+import { TableMessage } from "./ReactTable";
 
 // import TypeWriter from "typewriter-effect";
 
@@ -30,6 +31,7 @@ export const Message = ({ message }) => {
         {type === "LINE_CHART" && <LineChartComponent data={data} />}
         {type === "BAR_CHART" && <BarChartComponent data={data} />}
         {type === "PIE_CHART" && <PieChartComponent data={data} />}
+        {type === "TABLE" && <TableMessage data={data} />}
 
         {type === "STRING" && <p className="pt-1 text-sm ">{data}</p>}
 
