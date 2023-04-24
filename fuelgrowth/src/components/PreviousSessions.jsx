@@ -1,5 +1,5 @@
 import { setSessions } from "../redux/sessions/actions";
-import authService from "../services/auth.service";
+import { getChatSessions } from "../services";
 import { SessionRow } from "./SessionRow";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -14,7 +14,7 @@ export const PreviousSessions = () => {
   useEffect(() => {
     (async () => {
       try {
-        const result = await authService.getChatSessions();
+        const result = await getChatSessions();
 
         dispatch(setSessions(result.data.results));
       } catch (error) {

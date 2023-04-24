@@ -3,7 +3,7 @@ import { ROUTES } from "./constants/routes";
 import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
-import authService from "./services/auth.service.js";
+import { getAuthUser } from "./services";
 import React, { useEffect } from "react";
 import {
   createBrowserRouter,
@@ -22,7 +22,7 @@ const PrivateRoute = ({ Component }) => {
     console.log("INIT CALLED");
     initFlowbite();
   });
-  const authUser = authService.getAuthUser();
+  const authUser = getAuthUser();
   return authUser ? <Component /> : <Navigate to={LOGIN} replace />;
 };
 

@@ -1,6 +1,6 @@
 import { ROUTES } from "../constants/routes";
 import { removeSession, setSessions } from "../redux/sessions/actions";
-import authService from "../services/auth.service";
+import { deleteChatSession } from "../services";
 import { ChatBubbleLeftIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import React, { useState, useEffect } from "react";
@@ -23,7 +23,7 @@ export const SessionRow = ({
   const handleDelete = async (chatSessionId, e) => {
     e.preventDefault();
     try {
-      const result = await authService.deleteChatSession(chatSessionId);
+      const result = await deleteChatSession(chatSessionId);
 
       dispatch(removeSession(chatSessionId));
     } catch (error) {

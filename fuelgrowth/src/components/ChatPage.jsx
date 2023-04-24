@@ -1,5 +1,5 @@
 import { setMessages } from "../redux/messages/action";
-import authService from "../services/auth.service";
+import { getMessagesBySession } from "../services";
 import { Chat } from "./Chat";
 import { ChatInput } from "./ChatInput";
 import { ChatWelcome } from "./ChatWelcome";
@@ -22,7 +22,7 @@ export const ChatPage = () => {
       // If there exists sessionId, then user is in chat page.
       (async () => {
         try {
-          const result = await authService.getMessagesBySession(sessionId);
+          const result = await getMessagesBySession(sessionId);
 
           dispatch(setMessages(sessionId, result.data.results));
         } catch (error) {

@@ -1,9 +1,9 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import authService from "../services/auth.service";
+import { getAuthUser } from "../services";
 
 const AuthGuard = () => {
-  const authUser = authService.getAuthUser();
+  const authUser = getAuthUser();
   return authUser ? <Outlet /> : <Navigate to={"/login"} replace />;
 };
 

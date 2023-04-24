@@ -6,7 +6,11 @@ import {
   assignSessionID,
 } from "../redux/messages/action";
 import { setSessions } from "../redux/sessions/actions";
-import authService from "../services/auth.service";
+import {
+  addMessageToSession,
+  createNewChatSession,
+  getChatSessions,
+} from "../services";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { useState } from "react";
@@ -28,7 +32,7 @@ export const ChatInput = () => {
       // Incase of existing session, call addMessageToSession
       try {
         dispatch(addPromptMessage(sessionId, prompt));
-        const result = await authService.addMessageToSession(sessionId, {
+        const result = await addMessageToSession(sessionId, {
           content: prompt,
           is_prompt: true,
         });
@@ -41,7 +45,7 @@ export const ChatInput = () => {
     } else {
       // Create a new session and add message to that session
       dispatch(addPromptMessage(NEW_SESSION, prompt));
-      const result = await authService.createNewChatSession({
+      const result = await createNewChatSession({
         content: prompt,
         is_prompt: true,
       });
@@ -59,7 +63,7 @@ export const ChatInput = () => {
       );
       // update the session store
       try {
-        const result = await authService.getChatSessions();
+        const result = await getChatSessions();
 
         dispatch(setSessions(result.data.results));
       } catch (error) {

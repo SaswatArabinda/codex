@@ -58,7 +58,7 @@ const renderCustomizedLabel = ({
 
 export const LineChartComponent = ({ data }) => {
   const keys = extractDataKeys(data);
-  console.log(data, keys);
+
   return (
     <div className="w-full h-96" style={{ marginLeft: 0 }}>
       <ResponsiveContainer width="100%" height="100%">
@@ -81,7 +81,6 @@ export const LineChartComponent = ({ data }) => {
           {keys
             .filter((key) => key !== "name")
             .map((key, index) => {
-              console.log(key, index);
               return (
                 <Line
                   type="monotone"
@@ -100,7 +99,7 @@ export const LineChartComponent = ({ data }) => {
 
 export const BarChartComponent = ({ data }) => {
   const keys = extractDataKeys(data);
-  console.log(data, keys);
+
   return (
     <div className="w-full h-96" style={{ marginLeft: 0 }}>
       <ResponsiveContainer width="100%" height="100%">
@@ -123,7 +122,6 @@ export const BarChartComponent = ({ data }) => {
           {keys
             .filter((key) => key !== "name")
             .map((key, index) => {
-              console.log(key, index);
               return (
                 <Bar
                   key={key}

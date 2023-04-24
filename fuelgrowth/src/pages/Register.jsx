@@ -1,6 +1,6 @@
 import { FormErrorMessage } from "../components/FormErrorMessage";
 import { API_ROUTES, ROUTES } from "../constants/routes";
-import authService from "../services/auth.service";
+import { register as registerUser, getRoles } from "../services";
 import { registerUserSchema } from "../validations/registerUser";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
@@ -52,7 +52,7 @@ export const Register = () => {
 
     try {
       setIsSubmitted(true);
-      const result = await authService.register(req);
+      const result = await registerUser(req);
       if (result.data) {
         navigate(DASHBOARD);
       }
@@ -67,7 +67,7 @@ export const Register = () => {
   useEffect(() => {
     (async () => {
       try {
-        const result = await authService.getRoles();
+        const result = await getRoles();
 
         setRoles(result.data.results);
       } catch (error) {

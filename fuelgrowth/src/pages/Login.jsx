@@ -1,6 +1,6 @@
 import { FormErrorMessage } from "../components/FormErrorMessage";
 import { API_ROUTES, ROUTES } from "../constants/routes";
-import authService from "../services/auth.service";
+import { login } from "../services";
 import { loginUserSchema } from "../validations/loginUser";
 import { yupResolver } from "@hookform/resolvers/yup";
 import bcrypt from "bcryptjs";
@@ -29,7 +29,7 @@ export const Login = () => {
   const onSubmit = async (data) => {
     setIsSubmitted(true);
     try {
-      const result = await authService.login(data);
+      const result = await login(data);
 
       if (result.data) {
         navigate(DASHBOARD);

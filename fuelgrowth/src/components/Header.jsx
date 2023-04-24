@@ -1,8 +1,9 @@
 import React from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routes";
-import authService from "../services/auth.service";
+import { logout } from "../services";
 import toast from "react-hot-toast";
+import { Avatar } from "flowbite-react";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ export const Header = () => {
   const handleLogout = (e) => {
     e.preventDefault();
     try {
-      authService.logout();
+      logout();
       navigate(LOGIN);
     } catch (error) {
       toast.error(error?.statusText || error?.message);
@@ -58,11 +59,18 @@ export const Header = () => {
             <div className="flex items-center">
               <div className="flex items-center ml-3">
                 <div>
-                  <button
-                    type="button"
-                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                  <Avatar
+                    placeholderInitials="SA"
+                    bordered={true}
+                    size="sm"
+                    rounded={true}
                     aria-expanded="false"
                     data-dropdown-toggle="dropdown-user"
+                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 cursor-pointer"
+                  />
+                  {/* <button
+                    type="button"
+                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                   >
                     <span className="sr-only">Open user menu</span>
                     <img
@@ -70,7 +78,7 @@ export const Header = () => {
                       src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                       alt="user photo"
                     />
-                  </button>
+                  </button> */}
                 </div>
                 <div
                   className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"

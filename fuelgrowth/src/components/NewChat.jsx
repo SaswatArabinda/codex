@@ -1,6 +1,6 @@
 import { ROUTES } from "../constants/routes";
 import { addSession } from "../redux/sessions/actions";
-import authService from "../services/auth.service";
+import { createSessionWithoutPrompt } from "../services";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import toast from "react-hot-toast";
@@ -14,7 +14,7 @@ export default function NewChat() {
   const createNewSession = async (e) => {
     e.preventDefault();
     try {
-      const result = await authService.createSessionWithoutPrompt();
+      const result = await createSessionWithoutPrompt();
 
       dispatch(addSession(result.data));
 

@@ -1,12 +1,12 @@
 import { setSessions } from "../redux/sessions/actions";
-import authService from "../services/auth.service";
+import { getChatSessions } from "../services";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
 export const useChatSessions = async () => {
   const dispatch = useDispatch();
   try {
-    const result = await authService.getChatSessions();
+    const result = await getChatSessions();
 
     dispatch(setSessions(result.data.results));
   } catch (error) {
