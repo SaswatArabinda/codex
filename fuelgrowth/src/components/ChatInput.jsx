@@ -9,6 +9,7 @@ import { setSessions } from "../redux/sessions/actions";
 import {
   addMessageToSession,
   createNewChatSession,
+  getAuthUser,
   getChatSessions,
 } from "../services";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
@@ -25,9 +26,13 @@ export const ChatInput = () => {
   const navigate = useNavigate();
   const { sessionId } = useParams();
   const [prompt, setPrompt] = useState("");
+  const [loader, setLoader] = useState(false);
+  const authUser = getAuthUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setLoader(true);
     if (sessionId) {
       // Incase of existing session, call addMessageToSession
       try {
@@ -71,8 +76,8 @@ export const ChatInput = () => {
         toast.error(error?.statusText || error?.message);
       }
     }
-
     setPrompt("");
+    setLoader(false);
   };
 
   return (
@@ -84,10 +89,11 @@ export const ChatInput = () => {
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Type your message here...."
+          disabled={!authUser || loader}
         />
         <button
           type="submit"
-          disabled={!prompt}
+          disabled={!prompt || !authUser || loader}
           className="bg-[#11A37F] hover:opacity-50 text-white font-bold px-4 py-2 rounded disabled:bg-gray-700 disabled:cursor-not-allowed"
         >
           <PaperAirplaneIcon className="h-4 w-4 -rotate-45" />
