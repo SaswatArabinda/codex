@@ -13,8 +13,12 @@ export const Chat = ({ messages }) => {
 
   return (
     <div className="flex-1 overflow-auto mb-1 overflow-x-hidden">
-      {messages.map((message) => (
-        <Message key={message.chat_message_id} message={message} />
+      {messages.map((message, index) => (
+        <Message
+          key={message.chat_message_id}
+          message={message}
+          isLastElement={messages.length === index + 1}
+        />
       ))}
 
       <div style={{ float: "left", clear: "both" }} ref={bottomDiv}></div>
