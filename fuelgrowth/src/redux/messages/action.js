@@ -6,14 +6,14 @@ export const setMessages = (sessionId, messages) => ({
   data: { sessionId, messages },
 });
 
-export const addPromptMessage = (sessionId, promptText) => ({
+export const addChatMessage = (sessionId, text, isPrompt = true) => ({
   type: ADD_MESSAGE,
   data: {
     sessionId,
     message: {
       chat_message_id: `__chat__${createHash()}`,
-      is_prompt: true,
-      content: { data: promptText, type: "STRING" },
+      is_prompt: isPrompt,
+      content: { data: text, type: "STRING" },
     },
   },
 });

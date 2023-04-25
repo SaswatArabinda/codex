@@ -7,6 +7,7 @@ import {
 } from "./ReactCharts";
 import { TableMessage } from "./ReactTable";
 import { ChatLoader } from "./Loader";
+// import { useSelector } from "react-redux";
 
 // import TypeWriter from "typewriter-effect";
 
@@ -15,7 +16,7 @@ import { ChatLoader } from "./Loader";
   onInit={(typeWriter) => typeWriter.typeString(data).start()}
 /> */
 
-export const PromptLoader = () => {
+export const PromptLoader = ({ showError }) => {
   return (
     <>
       <ComputerDesktopIcon
@@ -23,6 +24,7 @@ export const PromptLoader = () => {
         style={{ minWidth: "1.5rem", minHeight: "1.5rem" }}
       />
       <ChatLoader />
+      {/* {showError ? <p>Something went wrong. Try again.</p> : <ChatLoader />} */}
     </>
   );
 };
@@ -71,7 +73,8 @@ export const MessageWrapper = ({ is_prompt, children }) => {
 export const Message = ({ message, isLastElement }) => {
   const { chat_message_id, content, is_prompt } = message;
   const { type, data } = content ?? {};
-
+  // const commonStore = useSelector((state) => state.common);
+  // const { errorWhileFetchingChatResponse } = commonStore;
   return (
     <>
       {is_prompt ? (
