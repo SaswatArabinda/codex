@@ -32,7 +32,7 @@ export const getMessagesBySession = (sessionId) => {
   return http.get(generatePath(GET_MESSAGES_BY_SESSION, { sessionId }));
 };
 
-export const addMessageToSession = (sessionId, data) => {
+export const postMessageToSession = (sessionId, data) => {
   return http.post(
     `${generatePath(ADD_MESSAGE_TO_SESSION, { sessionId })}/`,
     data
@@ -49,7 +49,7 @@ const methods = {
   deleteChatSession,
   createSessionWithoutPrompt,
   getMessagesBySession,
-  addMessageToSession,
+  postMessageToSession,
   createNewChatSession,
 };
 

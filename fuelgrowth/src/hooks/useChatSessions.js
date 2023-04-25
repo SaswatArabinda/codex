@@ -1,4 +1,4 @@
-import { setSessions } from "../redux/sessions/actions";
+import { setSessions } from "../redux/sessionLists/actions";
 import { getChatSessions } from "../services";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";

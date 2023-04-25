@@ -1,4 +1,4 @@
-import { setSessions } from "../redux/sessions/actions";
+import { setSessions } from "../redux/sessionLists/actions";
 import { getChatSessions } from "../services";
 import { SessionRow } from "./SessionRow";
 import React, { useState } from "react";
@@ -9,8 +9,9 @@ import { Spinner } from "flowbite-react";
 
 export const PreviousSessions = () => {
   const dispatch = useDispatch();
-  const sessionsState = useSelector((state) => state.sessions);
-  const { sessions } = sessionsState;
+  const sessionsState = useSelector((state) => state.sessionLists);
+
+  const { sessionLists: sessions } = sessionsState;
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {

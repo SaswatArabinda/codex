@@ -1,12 +1,16 @@
 import { createHash } from "../../utils/createHash";
 import { SET_MESSAGES, ADD_MESSAGE, ASSIGN_SESSION_ID } from "./actionTypes";
 
-export const setMessages = (sessionId, messages) => ({
+export const setMessagesToSession = (sessionId, messages) => ({
   type: SET_MESSAGES,
   data: { sessionId, messages },
 });
 
-export const addChatMessage = (sessionId, text, isPrompt = true) => ({
+export const createNewMessageAndAddToSession = (
+  sessionId,
+  text,
+  isPrompt = true
+) => ({
   type: ADD_MESSAGE,
   data: {
     sessionId,
@@ -18,7 +22,7 @@ export const addChatMessage = (sessionId, text, isPrompt = true) => ({
   },
 });
 
-export const addMessage = (sessionId, message) => ({
+export const pushMessageToSession = (sessionId, message) => ({
   type: ADD_MESSAGE,
   data: { sessionId, message },
 });

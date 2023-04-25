@@ -1,5 +1,5 @@
 import { ROUTES } from "../constants/routes";
-import { removeSession, setSessions } from "../redux/sessions/actions";
+import { removeSession, setSessions } from "../redux/sessionLists/actions";
 import { deleteChatSession } from "../services";
 import { ChatBubbleLeftIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { TrashIcon } from "@heroicons/react/24/solid";

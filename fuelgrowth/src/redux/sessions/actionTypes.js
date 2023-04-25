@@ -1,4 +1,3 @@
-export const GET_SESSIONS = "GET_SESSIONS";
-export const SET_SESSIONS = "SET_SESSIONS";
-export const ADD_SESSION = "ADD_SESSION";
-export const REMOVE_SESSION = "REMOVE_SESSION";
+export const SET_MESSAGES = "SET_MESSAGES";
+export const ADD_MESSAGE = "ADD_MESSAGE";
+export const ASSIGN_SESSION_ID = "ASSIGN_SESSION_ID";

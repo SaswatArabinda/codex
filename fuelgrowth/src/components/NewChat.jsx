@@ -1,5 +1,5 @@
 import { ROUTES } from "../constants/routes";
-import { addSession } from "../redux/sessions/actions";
+import { addSession } from "../redux/sessionLists/actions";
 import { createSessionWithoutPrompt } from "../services";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import React from "react";

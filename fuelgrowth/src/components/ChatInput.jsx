@@ -1,13 +1,13 @@
 import { ROUTES } from "../constants/routes";
 import { useChatSessions } from "../hooks/useChatSessions";
 import {
-  addMessage,
-  addChatMessage,
+  pushMessageToSession,
+  createNewMessageAndAddToSession,
   assignSessionID,
-} from "../redux/messages/action";
-import { setSessions } from "../redux/sessions/actions";
+} from "../redux/sessions/action";
+import { setSessions } from "../redux/sessionLists/actions";
 import {
-  addMessageToSession,
+  postMessageToSession,
   createNewChatSession,
   getAuthUser,
   getChatSessions,
@@ -38,19 +38,20 @@ export const ChatInput = () => {
 
     try {
       setLoader(true);
-      if (sessionId) {
-        // Incase of existing session, call addMessageToSession
 
-        dispatch(addChatMessage(sessionId, text));
-        const result = await addMessageToSession(sessionId, {
+      if (sessionId) {
+        // Incase of existing session, call pushMessageToSession
+        dispatch(createNewMessageAndAddToSession(sessionId, text));
+
+        const result = await postMessageToSession(sessionId, {
           content: text,
           is_prompt: true,
         });
 
-        dispatch(addMessage(sessionId, result.data));
+        dispatch(pushMessageToSession(sessionId, result.data));
       } else {
         // Create a new session and add message to that session
-        dispatch(addChatMessage(NEW_SESSION, text));
+        dispatch(createNewMessageAndAddToSession(NEW_SESSION, text));
         const result = await createNewChatSession({
           content: text,
           is_prompt: true,
@@ -60,7 +61,7 @@ export const ChatInput = () => {
         const { session_id } = result.data;
         dispatch(assignSessionID(session_id));
         // Add message to the session
-        dispatch(addMessage(session_id, result.data));
+        dispatch(pushMessageToSession(session_id, result.data));
         // Redirect the user to the new session
         navigate(
           generatePath(CHAT_PAGE, {
@@ -76,9 +77,15 @@ export const ChatInput = () => {
     } catch (error) {
       console.log("ERROR: ", error);
       toast.error(error?.statusText || error?.message);
-      // dispatch(setErrorWhileFetchingMEssages(true));
+
       // Create a new session and add ERROR message to that session
-      dispatch(addChatMessage(NEW_SESSION, "Something went wrong!", false));
+      dispatch(
+        createNewMessageAndAddToSession(
+          sessionId ? sessionId : NEW_SESSION,
+          "Something went wrong!",
+          false
+        )
+      );
     }
     setPrompt("");
     setLoader(false);

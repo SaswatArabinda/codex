@@ -1,4 +1,4 @@
-import { setMessages } from "../redux/messages/action";
+import { setMessagesToSession } from "../redux/sessions/action";
 import { getMessagesBySession } from "../services";
 import { Chat } from "./Chat";
 import { ChatInput } from "./ChatInput";
@@ -13,7 +13,7 @@ import { NEW_SESSION } from "../constants/constant";
 // Chat Input
 
 export const ChatPage = () => {
-  const messagesState = useSelector((state) => state.messages);
+  const sessionsState = useSelector((state) => state.sessions);
   const { sessionId } = useParams();
   const dispatch = useDispatch();
 
@@ -24,7 +24,7 @@ export const ChatPage = () => {
         try {
           const result = await getMessagesBySession(sessionId);
 
-          dispatch(setMessages(sessionId, result.data.results));
+          dispatch(setMessagesToSession(sessionId, result.data.results));
         } catch (error) {
           console.log("ERROR: ", error);
           toast.error(error?.statusText || error?.message);
@@ -34,14 +34,16 @@ export const ChatPage = () => {
   }, [sessionId]);
 
   let messages = [];
+
   if (sessionId) {
     // Chat session page
-    messages = messagesState.messages[sessionId];
+    messages = sessionsState.sessions[sessionId];
   } else {
     // Home page - Dashboard messages
-    messages = messagesState.messages[NEW_SESSION];
+    messages = sessionsState.sessions[NEW_SESSION];
   }
 
+  console.log(messages);
   return (
     <>
       <div className="p-4 w-full mt-14 overflow-hidden">

@@ -1,48 +1,42 @@
-import {
-  GET_SESSIONS,
-  SET_SESSIONS,
-  ADD_SESSION,
-  REMOVE_SESSION,
-} from "./actionTypes";
+import { NEW_SESSION } from "../../constants/constant";
+import { ADD_MESSAGE, SET_MESSAGES, ASSIGN_SESSION_ID } from "./actionTypes";
 
 const initialState = {
-  sessions: [],
+  sessions: {},
 };
 
 export const sessionReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_SESSIONS: {
+    case SET_MESSAGES: {
+      const { sessionId, messages } = action.data;
       return {
-        sessions: [...state.sessions],
+        sessions: { ...state.sessions, ...{ [sessionId]: messages } },
       };
-      break;
     }
-    case SET_SESSIONS: {
-      const { sessions } = action.data;
+    case ADD_MESSAGE: {
+      const { sessionId, message } = action.data;
+      const getExistingSession = state.sessions[sessionId] ?? [];
+      console.log("ADD_MESSAGE", message, state.sessions);
       return {
-        sessions: [...sessions],
+        sessions: {
+          ...state.sessions,
+          ...{ [sessionId]: [...getExistingSession, message] },
+        },
       };
-      break;
     }
-    case ADD_SESSION: {
-      const { session } = action.data;
 
-      return {
-        sessions: [session, ...state.sessions],
-      };
-      break;
-    }
-    case REMOVE_SESSION: {
+    case ASSIGN_SESSION_ID: {
       const { sessionId } = action.data;
+      // const newlyCreatedSession = state.sessions["__session__"] ?? [];
+      const sessions = { ...state.sessions };
+      sessions[sessionId] = state.sessions[NEW_SESSION] ?? [];
+      delete sessions[NEW_SESSION];
 
-      const filteredSessions = state.sessions.filter(
-        (session) => session.chat_session_id !== sessionId
-      );
       return {
-        sessions: [...filteredSessions],
+        sessions: { ...sessions },
       };
-      break;
     }
+
     default:
       return state;
   }
