@@ -13,6 +13,7 @@ import {
 
 import { initFlowbite } from "flowbite";
 import { Integration } from "./pages/Integration";
+import { ModalFC } from "./components/Modal";
 
 const { LOGIN, DASHBOARD, REGISTER, CHAT_PAGE, INTEGRATION } = ROUTES;
 
@@ -63,7 +64,12 @@ export const App = () => {
   //   console.log("INIT CALLED");
   //   initFlowbite();
   // });
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ModalFC />
+    </>
+  );
 };
 
 export default App;

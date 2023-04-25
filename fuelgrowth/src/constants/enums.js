@@ -1,0 +1,3 @@
+export const MODALS = {
+  FEEDBACK_MODAL: "FEEDBACK_MODAL",
+};
