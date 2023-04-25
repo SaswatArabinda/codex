@@ -12,6 +12,8 @@ export const API_ROUTES = {
   GET_MESSAGES_BY_SESSION: "v1/chat/sessions/:sessionId/messages/",
   ADD_MESSAGE_TO_SESSION: "v1/chat/sessions/:sessionId/messages/",
   CREATE_NEW_CHAT_SESSION: "v1/chat/messages/",
+
+  SEND_FEEDBACK: "v1/chat/messages/:messageId/",
 };
 
 export const ROUTES = {

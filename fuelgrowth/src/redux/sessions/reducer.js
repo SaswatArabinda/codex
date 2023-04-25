@@ -1,13 +1,19 @@
 import { NEW_SESSION } from "../../constants/constant";
-import { ADD_MESSAGE, SET_MESSAGES, ASSIGN_SESSION_ID } from "./actionTypes";
+import {
+  ADD_MESSAGE,
+  ADD_NEW_SESSION_TO_STORE,
+  ASSIGN_SESSION_ID,
+  UPDATE_MESSAGE,
+} from "./actionTypes";
 
 const initialState = {
   sessions: {},
 };
 
+// Mostly used in side bar where we fetch session details
 export const sessionReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_MESSAGES: {
+    case ADD_NEW_SESSION_TO_STORE: {
       const { sessionId, messages } = action.data;
       return {
         sessions: { ...state.sessions, ...{ [sessionId]: messages } },
@@ -16,7 +22,7 @@ export const sessionReducer = (state = initialState, action) => {
     case ADD_MESSAGE: {
       const { sessionId, message } = action.data;
       const getExistingSession = state.sessions[sessionId] ?? [];
-      console.log("ADD_MESSAGE", message, state.sessions);
+
       return {
         sessions: {
           ...state.sessions,
@@ -34,6 +40,25 @@ export const sessionReducer = (state = initialState, action) => {
 
       return {
         sessions: { ...sessions },
+      };
+    }
+
+    case UPDATE_MESSAGE: {
+      // Updates particular message of session
+      const { sessionId, messageId, data } = action.data;
+
+      return {
+        sessions: {
+          ...state.sessions,
+          ...{
+            [sessionId]: state.sessions[sessionId].map((message, i) => {
+              if (message.chat_message_id == messageId) {
+                return { ...message, ...data };
+              }
+              return message;
+            }),
+          },
+        },
       };
     }
 

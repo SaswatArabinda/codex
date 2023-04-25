@@ -1,32 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Button } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "@heroicons/react/24/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { MODALS } from "../constants/enums";
 import { hideModal } from "../redux/modal/action";
 import { useForm, Controller } from "react-hook-form";
+import { sendFeedback } from "../services/messageService";
+import toast from "react-hot-toast";
+import { useRef } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { updateMessageForSession } from "../redux/sessions/action";
 
 export const FeedbackModal = ({ isVisible, data }) => {
-  const { chat_message_id, content, thumbs_up, thumbs_down, remarks } =
+  const textAreaRef = useRef(null);
+  const [loader, setLoader] = useState(false);
+
+  const { chat_message_id, content, thumbs_up, thumbs_down, remarks, session } =
     data ?? {};
-
-  console.log("FEEDBACK MODAL DATA", {
-    chat_message_id,
-    content,
-    thumbs_up,
-    thumbs_down,
-    remarks,
-  });
-
   const dispatch = useDispatch();
 
-  const submitFeedback = (e, data) => {
+  const submitFeedback = async (e) => {
     e.preventDefault();
-    console.log(data);
-    dispatch(hideModal(MODALS.FEEDBACK_MODAL, null));
+
+    try {
+      // Show loader/disable the buttons
+      setLoader(true);
+      // Send feedback
+      await sendFeedback(chat_message_id, {
+        thumbs_down: true,
+        remarks: textAreaRef.current.value.trim(),
+      });
+
+      // Refresh the session
+      dispatch(
+        updateMessageForSession(session, chat_message_id, {
+          thumbs_down: true,
+          thumbs_up: false,
+          remarks: textAreaRef.current.value.trim(),
+        })
+      );
+
+      // Hide the modal
+      dispatch(hideModal(MODALS.FEEDBACK_MODAL, null));
+
+      // Clear modal
+      textAreaRef.current.value = "";
+    } catch (error) {
+      console.log("ERROR: ", error);
+      toast.error(error?.statusText || error?.message);
+    }
+
+    // Hide loader
+    setLoader(false);
   };
   const onClose = (e) => {
     e.preventDefault();
+    // Hide the modal
     dispatch(hideModal(MODALS.FEEDBACK_MODAL, null));
   };
 
@@ -77,8 +106,9 @@ export const FeedbackModal = ({ isVisible, data }) => {
         >
           <form>
             <textarea
+              ref={textAreaRef}
               id="feedback-other"
-              placeholder="What do you like about the response?"
+              placeholder="What was the issue with the response? How could it be improved?"
               rows="3"
               className="mt-4 mb-1 w-full rounded-md dark:bg-gray-800 dark:focus:border-white dark:focus:ring-white"
               style={{ height: "90px", overflowY: "hidden" }}
@@ -87,7 +117,11 @@ export const FeedbackModal = ({ isVisible, data }) => {
             </textarea>
           </form>
           <div className="mt-5 flex flex-col gap-3 sm:mt-4 sm:flex-row-reverse">
-            <Button color="gray" onClick={(e) => submitFeedback(e)}>
+            <Button
+              color="gray"
+              onClick={(e) => submitFeedback(e)}
+              disabled={loader}
+            >
               Submit feedback
             </Button>
           </div>

@@ -37,7 +37,8 @@ const get = (url, params, config = {}) =>
 const post = (url, data, config = {}) => instance.post(url, data, config);
 const deleteMethod = (url, params, config = {}) =>
   instance.delete(url, params, config);
+const put = (url, params, config = {}) => instance.put(url, params, config);
 
-const methods = { get, post, deleteMethod };
+const methods = { get, post, deleteMethod, put };
 
 export default methods;

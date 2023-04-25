@@ -1,8 +1,13 @@
 import { createHash } from "../../utils/createHash";
-import { SET_MESSAGES, ADD_MESSAGE, ASSIGN_SESSION_ID } from "./actionTypes";
+import {
+  ADD_NEW_SESSION_TO_STORE,
+  ADD_MESSAGE,
+  ASSIGN_SESSION_ID,
+  UPDATE_MESSAGE,
+} from "./actionTypes";
 
-export const setMessagesToSession = (sessionId, messages) => ({
-  type: SET_MESSAGES,
+export const addNewSessionInStore = (sessionId, messages) => ({
+  type: ADD_NEW_SESSION_TO_STORE,
   data: { sessionId, messages },
 });
 
@@ -31,3 +36,10 @@ export const assignSessionID = (sessionId) => ({
   type: ASSIGN_SESSION_ID,
   data: { sessionId },
 });
+
+export const updateMessageForSession = (sessionId, messageId, data) => {
+  return {
+    type: UPDATE_MESSAGE,
+    data: { sessionId, messageId, data },
+  };
+};

@@ -1,4 +1,4 @@
-import { setMessagesToSession } from "../redux/sessions/action";
+import { addNewSessionInStore } from "../redux/sessions/action";
 import { getMessagesBySession } from "../services";
 import { Chat } from "./Chat";
 import { ChatInput } from "./ChatInput";
@@ -23,8 +23,7 @@ export const ChatPage = () => {
       (async () => {
         try {
           const result = await getMessagesBySession(sessionId);
-
-          dispatch(setMessagesToSession(sessionId, result.data.results));
+          dispatch(addNewSessionInStore(sessionId, result.data.results));
         } catch (error) {
           console.log("ERROR: ", error);
           toast.error(error?.statusText || error?.message);
@@ -43,7 +42,6 @@ export const ChatPage = () => {
     messages = sessionsState.sessions[NEW_SESSION];
   }
 
-  console.log(messages);
   return (
     <>
       <div className="p-4 w-full mt-14 overflow-hidden">

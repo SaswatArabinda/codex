@@ -10,6 +10,7 @@ const {
   GET_MESSAGES_BY_SESSION,
   ADD_MESSAGE_TO_SESSION,
   CREATE_NEW_CHAT_SESSION,
+  SEND_FEEDBACK,
 } = API_ROUTES;
 
 export const getRoles = () => {
@@ -41,6 +42,10 @@ export const postMessageToSession = (sessionId, data) => {
 
 export const createNewChatSession = (data) => {
   return http.post(CREATE_NEW_CHAT_SESSION, data);
+};
+
+export const sendFeedback = (messageId, data) => {
+  return http.put(`${generatePath(SEND_FEEDBACK, { messageId })}/`, data);
 };
 
 const methods = {

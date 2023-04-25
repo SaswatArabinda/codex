@@ -1,5 +1,5 @@
-import { ComputerDesktopIcon, UserCircleIcon } from "@heroicons/react/24/solid";
-import React from "react";
+import { ComputerDesktopIcon, UserCircleIcon } from "@heroicons/react/20/solid";
+import React, { useState } from "react";
 import {
   LineChartComponent,
   BarChartComponent,
@@ -10,6 +10,8 @@ import { ChatLoader } from "./Loader";
 import { useDispatch } from "react-redux";
 import { showModal } from "../redux/modal/action";
 import { MODALS } from "../constants/enums";
+import { sendFeedback } from "../services/messageService";
+import { updateMessageForSession } from "../redux/sessions/action";
 
 // import { useSelector } from "react-redux";
 
@@ -25,11 +27,34 @@ export const RowFeedback = ({
   thumbs_up,
   thumbs_down,
   remarks,
+  session,
 }) => {
   const dispatch = useDispatch();
-  const handleThumbsUpClick = (e) => {
+  const [loader, setLoader] = useState(false);
+  const handleThumbsUpClick = async (e) => {
     e.preventDefault();
-    console.log({ chat_message_id, thumbs_up, thumbs_down, remarks });
+    try {
+      // Show loader/disable the buttons
+      setLoader(true);
+      // Send feedback
+      await sendFeedback(chat_message_id, {
+        thumbs_up: true,
+      });
+
+      // Refresh the session
+      dispatch(
+        updateMessageForSession(session, chat_message_id, {
+          thumbs_up: true,
+          thumbs_down: false,
+        })
+      );
+    } catch (error) {
+      console.log("ERROR: ", error);
+      toast.error(error?.statusText || error?.message);
+    }
+
+    // Hide loader
+    setLoader(false);
   };
 
   const handleThumbsDownClick = (e) => {
@@ -42,6 +67,7 @@ export const RowFeedback = ({
           thumbs_up,
           thumbs_down,
           remarks,
+          session,
         },
       })
     );
@@ -67,9 +93,9 @@ export const RowFeedback = ({
           </svg>
         </button> */}
         <button
-          className="p-1 rounded-md hover:bg-gray-100 disabled:text-green-700 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400"
+          className="p-1 rounded-md hover:bg-gray-100 disabled:bg-gray-200 disabled:text-green-700 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400"
           onClick={(e) => handleThumbsUpClick(e)}
-          disabled={thumbs_up}
+          disabled={thumbs_up || loader}
         >
           <svg
             stroke="currentColor"
@@ -87,7 +113,7 @@ export const RowFeedback = ({
           </svg>
         </button>
         <button
-          className="p-1 rounded-md hover:bg-gray-100 disabled:text-red-700 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400"
+          className="p-1 rounded-md hover:bg-gray-100 disabled:bg-gray-200 disabled:text-red-700 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400"
           onClick={(e) => handleThumbsDownClick(e)}
           disabled={thumbs_down}
         >
@@ -135,7 +161,6 @@ export const RowTemplate = ({ leftContent, bodyContent, rightContent }) => {
     </>
   );
 };
-
 export const PromptLoader = () => {
   return (
     <>
@@ -153,9 +178,7 @@ export const PromptText = ({ chat_message_id, content, is_prompt }) => {
     <>
       <RowTemplate
         leftContent={<UserCircleIcon />}
-        bodyContent={
-          type === "STRING" && <p className="pt-1 text-sm ">{data}</p>
-        }
+        bodyContent={type === "STRING" && <p className="text-sm ">{data}</p>}
       />
     </>
   );
@@ -167,9 +190,16 @@ export const PromptResponse = ({
   thumbs_up,
   thumbs_down,
   remarks,
+  session,
 }) => {
   const { type, data } = content ?? {};
-  const FeebpackProps = { chat_message_id, thumbs_up, thumbs_down, remarks };
+  const FeebpackProps = {
+    chat_message_id,
+    thumbs_up,
+    thumbs_down,
+    remarks,
+    session,
+  };
   return (
     <>
       <RowTemplate
@@ -185,7 +215,7 @@ export const PromptResponse = ({
             {type === "BAR_CHART" && <BarChartComponent data={data} />}
             {type === "PIE_CHART" && <PieChartComponent data={data} />}
             {type === "TABLE" && <TableMessage data={data} />}
-            {type === "STRING" && <p className="pt-1 text-sm ">{data}</p>}
+            {type === "STRING" && <p className="text-sm ">{data}</p>}
           </>
         }
         rightContent={<RowFeedback {...FeebpackProps} />}
