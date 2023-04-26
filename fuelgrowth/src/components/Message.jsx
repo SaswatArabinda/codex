@@ -149,7 +149,7 @@ export const RowTemplate = ({ leftContent, bodyContent, rightContent }) => {
         </div>
       </div>
       <div className="relative flex w-[calc(100%-50px)] flex-col gap-1 md:gap-3 lg:w-[calc(100%-115px)]">
-        <div className="flex flex-grow flex-col gap-3 justify-end">
+        <div className="flex flex-grow flex-col gap-3 justify-center">
           <div className="min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap break-words">
             <div className="markdown prose w-full break-words dark:prose-invert light">
               {bodyContent}
@@ -161,6 +161,7 @@ export const RowTemplate = ({ leftContent, bodyContent, rightContent }) => {
     </>
   );
 };
+
 export const PromptLoader = () => {
   return (
     <>

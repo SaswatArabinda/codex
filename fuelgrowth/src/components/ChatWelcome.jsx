@@ -1,67 +1,75 @@
 import React from "react";
 import {
-  SunIcon,
-  BoltIcon,
-  ExclamationTriangleIcon,
+  PresentationChartLineIcon,
+  RectangleStackIcon,
+  CubeIcon,
 } from "@heroicons/react/24/outline";
 
-export const ChatWelcome = () => {
+export const ChatWelcome = ({ setPrompt }) => {
+  const handleClick = (e) => {
+    e.preventDefault();
+
+    console.log(e.target.innerText);
+    setPrompt(e.target.innerText);
+  };
   return (
     <div className="flex-1">
       <div className="flex flex-col items-center justify-center h-full px-2">
-        <h1 className="text-5xl font-bold mb-5">Welcome to FuelGrowth</h1>
+        <h1 className="text-5xl font-bold mb-5">Hi, I'm Fuego!</h1>
         <p className="max-w-xl text-center mb-16">
-          Get started by writing a task and Chat can do the rest. Not sure where
-          to start? Check out the Prompt Library for inspiration.
+          Ask me questions related to yours sales, inventory, shipping, and
+          customeer data. I'm constantly improving and your feedback helps me
+          learn faster.
         </p>
-        <div className="flex space-x-2 text-center">
+        <div className="flex space-x-2 text-center text-sm">
           <div>
             <div className="flex flex-col items-center justify-center mb-5">
-              <SunIcon className="h-8 w-8 " />
-              <h2>Examples</h2>
+              <PresentationChartLineIcon className="h-8 w-8 " />
+              <h2>Sales</h2>
             </div>
             <div className="space-y-2">
-              <p className="infoText">Lorem ipsum, dolor sit amet </p>
-              <p className="infoText">
-                consectetur adipisicing elit. Voluptates dolores
+              <p className="infoText" onClick={(e) => handleClick(e)}>
+                Plot total sales for the first quater of 2023.{" "}
               </p>
-              <p className="infoText">
-                Voluptates dolores, neque officiis sequi tempora{" "}
+              <p className="infoText" onClick={(e) => handleClick(e)}>
+                Which product was sold the most in March?
+              </p>
+              <p className="infoText" onClick={(e) => handleClick(e)}>
+                Show me a list of stores with total quantity sold in 2022.
               </p>
             </div>
           </div>
           <div>
             <div className="flex flex-col items-center justify-center mb-5">
-              <BoltIcon className="h-8 w-8 " />
-              <h2>Examples</h2>
+              <RectangleStackIcon className="h-8 w-8 " />
+              <h2>Inventory</h2>
             </div>
             <div className="space-y-2">
-              <p className="infoText">
-                consectetur! Iste eos inventore dolorem?
+              <p className="infoText" onClick={(e) => handleClick(e)}>
+                How many products should I replenish in April?
               </p>
-              <p className="infoText">
-                dolores non voluptatum accusantium ipsa natus ratione impedit
-                nulla iusto voluptas dolore doloribus sunt
+              <p className="infoText" onClick={(e) => handleClick(e)}>
+                Show me products that have more than 100 stocks?
               </p>
-              <p className="infoText">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              <p className="infoText" onClick={(e) => handleClick(e)}>
+                Plot total number of stocks in each store.
               </p>
             </div>
           </div>
           <div>
             <div className="flex flex-col items-center justify-center mb-5">
-              <ExclamationTriangleIcon className="h-8 w-8 " />
-              <h2>Examples</h2>
+              <CubeIcon className="h-8 w-8 " />
+              <h2>Shipping</h2>
             </div>
             <div className="space-y-2">
-              <p className="infoText">
-                placeat, cupiditate blanditiis tempore, id enim quas dicta
+              <p className="infoText" onClick={(e) => handleClick(e)}>
+                How many customers used Cash on Delievery (COD) in April?
               </p>
-              <p className="infoText">
-                voluptatibus voluptatum, nemo neque odit! Distinctio laborum
+              <p className="infoText" onClick={(e) => handleClick(e)}>
+                Which carrier had the most number of SLA breaches?
               </p>
-              <p className="infoText">
-                cupiditate facilis, temporibus nihil officiis cum eum id.
+              <p className="infoText" onClick={(e) => handleClick(e)}>
+                How much total shipping charges were paid in March?
               </p>
             </div>
           </div>

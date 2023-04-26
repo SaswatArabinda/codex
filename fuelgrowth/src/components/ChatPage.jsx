@@ -3,7 +3,7 @@ import { getMessagesBySession } from "../services";
 import { Chat } from "./Chat";
 import { ChatInput } from "./ChatInput";
 import { ChatWelcome } from "./ChatWelcome";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -14,6 +14,7 @@ import { setError } from "../utils/errors";
 // Chat Input
 
 export const ChatPage = () => {
+  const [prompt, setPrompt] = useState("");
   const sessionsState = useSelector((state) => state.sessions);
   const { sessionId } = useParams();
   const dispatch = useDispatch();
@@ -42,6 +43,13 @@ export const ChatPage = () => {
     messages = sessionsState.sessions[NEW_SESSION];
   }
 
+  const chatInputProps = {
+    prompt,
+    setPrompt,
+  };
+  const chatWelcomeProps = {
+    setPrompt,
+  };
   return (
     <>
       <div className="p-4 w-full mt-14 overflow-hidden">
@@ -53,9 +61,9 @@ export const ChatPage = () => {
             {Array.isArray(messages) && messages.length > 0 ? (
               <Chat messages={messages} />
             ) : (
-              <ChatWelcome />
+              <ChatWelcome {...chatWelcomeProps} />
             )}
-            <ChatInput />
+            <ChatInput {...chatInputProps} />
           </div>
         </div>
       </div>

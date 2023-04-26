@@ -21,12 +21,12 @@ import { NEW_SESSION } from "../constants/constant";
 import { setError } from "../utils/errors";
 // import { setErrorWhileFetchingMEssages } from "../redux/common/action";
 
-export const ChatInput = () => {
+export const ChatInput = ({ prompt, setPrompt }) => {
   const { CHAT_PAGE } = ROUTES;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { sessionId } = useParams();
-  const [prompt, setPrompt] = useState("");
+
   const [loader, setLoader] = useState(false);
   const authUser = getAuthUser();
 
@@ -58,14 +58,14 @@ export const ChatInput = () => {
         });
 
         // Replace the session with ID: __session__ with newly created session
-        const { session_id } = result.data;
-        dispatch(assignSessionID(session_id));
+        const { session } = result.data;
+        dispatch(assignSessionID(session));
         // Add message to the session
-        dispatch(pushMessageToSession(session_id, result.data));
+        dispatch(pushMessageToSession(session, result.data));
         // Redirect the user to the new session
         navigate(
           generatePath(CHAT_PAGE, {
-            sessionId: session_id,
+            sessionId: session,
           })
         );
         // update the session store
@@ -90,7 +90,7 @@ export const ChatInput = () => {
   };
 
   return (
-    <div className="bg-gray-300/50  rounded-lg text-sm flex">
+    <div className="bg-gray-100/50  rounded-lg text-sm flex">
       <form className="p-5 space-x-5 flex-1 flex" onSubmit={handleSubmit}>
         <input
           className="bg-transparent focus:outline-none flex-1 disabled:cursor-not-allowed disabled:text-gray-700"
