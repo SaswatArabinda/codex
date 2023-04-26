@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { NEW_SESSION } from "../constants/constant";
+import { setError } from "../utils/errors";
 
 // Chat
 // Chat Input
@@ -25,8 +26,7 @@ export const ChatPage = () => {
           const result = await getMessagesBySession(sessionId);
           dispatch(addNewSessionInStore(sessionId, result.data.results));
         } catch (error) {
-          console.log("ERROR: ", error);
-          toast.error(error?.statusText || error?.message);
+          setError(error);
         }
       })();
     }

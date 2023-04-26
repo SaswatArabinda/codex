@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { useRef } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { updateMessageForSession } from "../redux/sessions/action";
+import { setError } from "../utils/errors";
 
 export const FeedbackModal = ({ isVisible, data }) => {
   const textAreaRef = useRef(null);
@@ -46,8 +47,7 @@ export const FeedbackModal = ({ isVisible, data }) => {
       // Clear modal
       textAreaRef.current.value = "";
     } catch (error) {
-      console.log("ERROR: ", error);
-      toast.error(error?.statusText || error?.message);
+      setError(error);
     }
 
     // Hide loader

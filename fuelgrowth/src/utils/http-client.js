@@ -1,5 +1,6 @@
 import axios from "axios";
 import authService from "../services/authService";
+import { setError } from "./errors";
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -14,6 +15,7 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
+    setError(error);
     return Promise.reject(error);
   }
 );

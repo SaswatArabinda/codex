@@ -1,5 +1,4 @@
 import { ROUTES } from "../constants/routes";
-import { useChatSessions } from "../hooks/useChatSessions";
 import {
   pushMessageToSession,
   createNewMessageAndAddToSession,
@@ -19,6 +18,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { generatePath, useNavigate, useParams } from "react-router-dom";
 import { NEW_SESSION } from "../constants/constant";
+import { setError } from "../utils/errors";
 // import { setErrorWhileFetchingMEssages } from "../redux/common/action";
 
 export const ChatInput = () => {
@@ -75,9 +75,7 @@ export const ChatInput = () => {
         dispatch(setSessions(chatSessionsData.data.results));
       }
     } catch (error) {
-      console.log("ERROR: ", error);
-      toast.error(error?.statusText || error?.message);
-
+      setError(error);
       // Create a new session and add ERROR message to that session
       dispatch(
         createNewMessageAndAddToSession(

@@ -12,13 +12,14 @@ import PI from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { Link, useNavigate } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
+import { setError } from "../utils/errors";
 
 const PhoneInput = PI.default ? PI.default : PI;
 
 export const Register = () => {
   const navigate = useNavigate();
   const [roles, setRoles] = useState();
-  const [isSubmitted, setIsSubmitted] = useState();
+  const [loader, setLoader] = useState();
 
   const { LOGIN, DASHBOARD } = ROUTES;
   const {
@@ -51,16 +52,16 @@ export const Register = () => {
     };
 
     try {
-      setIsSubmitted(true);
+      setLoader(true);
       const result = await registerUser(req);
+
       if (result.data) {
         navigate(DASHBOARD);
       }
     } catch (error) {
-      console.log("ERROR: ", error);
-      toast.error(error?.statusText || error?.message);
+      setError(error);
     }
-    setIsSubmitted(false);
+    setLoader(false);
     reset();
   };
 
@@ -71,11 +72,10 @@ export const Register = () => {
 
         setRoles(result.data.results);
       } catch (error) {
-        console.log("ERROR: ", error);
-        toast.error(error?.statusText || error?.message);
+        setError(error);
       }
     })();
-  }, []);
+  }, [setLoader]);
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -186,7 +186,7 @@ export const Register = () => {
                   Confirm password
                 </label>
                 <input
-                  type="confirm-password"
+                  type="password"
                   {...register("confirm-password")}
                   id="confirm-password"
                   placeholder="••••••••"
@@ -298,7 +298,7 @@ export const Register = () => {
               )}
               <button
                 type="submit"
-                disabled={isSubmitted}
+                disabled={loader}
                 className="w-full text-white bg-[#2563eb] hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-[#2563eb] dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
                 Create an account

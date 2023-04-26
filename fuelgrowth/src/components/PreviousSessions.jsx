@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Spinner } from "flowbite-react";
+import { setError } from "../utils/errors";
 
 export const PreviousSessions = () => {
   const dispatch = useDispatch();
@@ -15,14 +16,13 @@ export const PreviousSessions = () => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     (async () => {
       try {
         const result = await getChatSessions();
-
         dispatch(setSessions(result.data.results));
       } catch (error) {
-        console.log("ERROR: ", error);
-        toast.error(error?.statusText || error?.message);
+        setError(error);
       }
       setLoading(false);
     })();

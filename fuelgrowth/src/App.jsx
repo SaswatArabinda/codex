@@ -20,10 +20,11 @@ const { LOGIN, DASHBOARD, REGISTER, CHAT_PAGE, INTEGRATION } = ROUTES;
 const PrivateRoute = ({ Component }) => {
   // TODO: move it to common page layout component
   useEffect(() => {
-    console.log("INIT CALLED");
     initFlowbite();
   });
   const authUser = getAuthUser();
+
+  console.log("Is user authenticated", !!authUser);
   return authUser ? <Component /> : <Navigate to={LOGIN} replace />;
 };
 
@@ -34,17 +35,17 @@ const router = createBrowserRouter([
     children: [
       {
         path: DASHBOARD,
-        element: <ChatPage />,
+        element: <PrivateRoute Component={ChatPage} />,
         // loader: teamLoader,
       },
       {
         path: CHAT_PAGE,
-        element: <ChatPage />,
+        element: <PrivateRoute Component={ChatPage} />,
         // loader: teamLoader,
       },
       {
         path: INTEGRATION,
-        element: <Integration />,
+        element: <PrivateRoute Component={Integration} />,
         // loader: teamLoader,
       },
     ],

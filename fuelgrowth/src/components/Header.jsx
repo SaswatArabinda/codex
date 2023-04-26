@@ -4,6 +4,7 @@ import { ROUTES } from "../constants/routes";
 import { logout } from "../services";
 import toast from "react-hot-toast";
 import { Avatar } from "flowbite-react";
+import { setError } from "../utils/errors";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export const Header = () => {
       logout();
       navigate(LOGIN);
     } catch (error) {
-      toast.error(error?.statusText || error?.message);
+      setError(error);
     }
   };
   return (

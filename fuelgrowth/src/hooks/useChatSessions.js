@@ -2,6 +2,7 @@ import { setSessions } from "../redux/sessionLists/actions";
 import { getChatSessions } from "../services";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { setError } from "../utils/errors";
 
 export const useChatSessions = async () => {
   const dispatch = useDispatch();
@@ -10,7 +11,6 @@ export const useChatSessions = async () => {
 
     dispatch(setSessions(result.data.results));
   } catch (error) {
-    console.log("ERROR: ", error);
-    toast.error(error?.statusText || error?.message);
+    setError(error);
   }
 };

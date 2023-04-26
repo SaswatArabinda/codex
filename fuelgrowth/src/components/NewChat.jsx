@@ -6,6 +6,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { generatePath, useNavigate } from "react-router-dom";
+import { setError } from "../utils/errors";
 
 export default function NewChat() {
   const dispatch = useDispatch();
@@ -25,8 +26,7 @@ export default function NewChat() {
         })
       );
     } catch (error) {
-      console.log("ERROR: ", error);
-      toast.error(error?.statusText || error?.message);
+      setError(error);
     }
   };
   return (

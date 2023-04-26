@@ -4,16 +4,16 @@ import { generatePath } from "react-router-dom";
 
 const { LOGIN, REGISTER, LOGOUT } = API_ROUTES;
 
+const addAuthDetailsInLocalStorage = (result) => {
+  const parsed = JSON.parse(result);
+  console.log("Has JWT token", !!parsed.refresh);
+  if (parsed.refresh) localStorage.setItem("authUser", JSON.stringify(parsed));
+  return parsed;
+};
+
 export const login = (data) => {
   return http.post(LOGIN, data, {
-    transformResponse: [
-      (result) => {
-        const parsed = JSON.parse(result);
-
-        localStorage.setItem("authUser", JSON.stringify(parsed));
-        return parsed;
-      },
-    ],
+    transformResponse: [addAuthDetailsInLocalStorage],
   });
 };
 

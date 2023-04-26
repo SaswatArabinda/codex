@@ -12,6 +12,7 @@ import { showModal } from "../redux/modal/action";
 import { MODALS } from "../constants/enums";
 import { sendFeedback } from "../services/messageService";
 import { updateMessageForSession } from "../redux/sessions/action";
+import { setError } from "../utils/errors";
 
 // import { useSelector } from "react-redux";
 
@@ -49,8 +50,7 @@ export const RowFeedback = ({
         })
       );
     } catch (error) {
-      console.log("ERROR: ", error);
-      toast.error(error?.statusText || error?.message);
+      setError(error);
     }
 
     // Hide loader

@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { generatePath, Link, useParams } from "react-router-dom";
+import { setError } from "../utils/errors";
 
 export const SessionRow = ({
   chat_session_id,
@@ -27,8 +28,7 @@ export const SessionRow = ({
 
       dispatch(removeSession(chatSessionId));
     } catch (error) {
-      console.log("ERROR: ", error);
-      toast.error(error?.statusText || error?.message);
+      setError(error);
     }
   };
 

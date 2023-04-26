@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, redirect, useNavigate } from "react-router-dom";
+import { setError } from "../utils/errors";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -35,8 +36,7 @@ export const Login = () => {
         navigate(DASHBOARD);
       }
     } catch (error) {
-      console.log("ERROR: ", error);
-      toast.error(error?.statusText || error?.message);
+      setError(error);
     }
     setIsSubmitted(false);
     reset();
