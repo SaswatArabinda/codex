@@ -14,8 +14,10 @@ import {
 import { initFlowbite } from "flowbite";
 import { Integration } from "./pages/Integration";
 import { ModalFC } from "./components/Modal";
+import { PageNotFound } from "./pages/PageNotFound";
 
-const { LOGIN, DASHBOARD, REGISTER, CHAT_PAGE, INTEGRATION } = ROUTES;
+const { LOGIN, DASHBOARD, REGISTER, CHAT_PAGE, INTEGRATION, PAGE_NOT_FOUND } =
+  ROUTES;
 
 const PrivateRoute = ({ Component }) => {
   // TODO: move it to common page layout component
@@ -57,6 +59,10 @@ const router = createBrowserRouter([
   {
     path: REGISTER,
     element: <Register />,
+  },
+  {
+    path: PAGE_NOT_FOUND,
+    element: <PageNotFound />,
   },
 ]);
 

@@ -17,6 +17,7 @@ export const API_ROUTES = {
 };
 
 export const ROUTES = {
+  PAGE_NOT_FOUND: "*",
   DASHBOARD: "/",
   LOGIN: "/login",
   REGISTER: "/register",

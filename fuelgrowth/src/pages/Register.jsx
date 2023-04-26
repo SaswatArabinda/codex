@@ -58,11 +58,11 @@ export const Register = () => {
       if (result.data) {
         navigate(DASHBOARD);
       }
+      reset();
     } catch (error) {
       setError(error);
     }
     setLoader(false);
-    reset();
   };
 
   useEffect(() => {
@@ -249,8 +249,7 @@ export const Register = () => {
                         required: true,
                         autoFocus: true,
                       }}
-                      country={"in"}
-                      onlyCountries={["in"]}
+                      country={"us"}
                       countryCodeEditable={false}
                       specialLabel={"Player Mobile Number"}
                       inputStyle={{
