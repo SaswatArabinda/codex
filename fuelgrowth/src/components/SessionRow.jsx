@@ -175,7 +175,7 @@ export const SessionRow = ({
         //   isActive && "bg-gray-300 50"
         // }`}
         className={`flex p-2 items-center text-sm gap-3 relative rounded-md cursor-pointer break-all text-gray-900  group ${
-          isActive && "bg-gray-300 pr-10"
+          isActive && "bg-gray-200 pr-10"
         } ${!isActive && "hover:bg-gray-100"}`}
       >
         {/* <ChatBubbleLeftIcon className="h-4 w-4" /> */}
@@ -199,7 +199,7 @@ export const SessionRow = ({
         >
           {summary}
           {isActive && (
-            <div className="absolute inset-y-0 right-0 w-10 z-10 bg-gradient-to-l from-gray-300 "></div>
+            <div className="absolute inset-y-0 right-0 w-10 z-10 bg-gradient-to-l from-gray-200 "></div>
           )}
         </div>
         {isActive && (

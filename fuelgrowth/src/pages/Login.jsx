@@ -1,14 +1,11 @@
 import { FormErrorMessage } from "../components/FormErrorMessage";
-import { API_ROUTES, ROUTES } from "../constants/routes";
+import { ROUTES } from "../constants/routes";
 import { login } from "../services";
 import { loginUserSchema } from "../validations/loginUser";
 import { yupResolver } from "@hookform/resolvers/yup";
-import bcrypt from "bcryptjs";
 import React, { useState } from "react";
-import { useEffect } from "react";
-import { useForm, Controller } from "react-hook-form";
-import toast from "react-hot-toast";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import { setError } from "../utils/errors";
 
 export const Login = () => {
