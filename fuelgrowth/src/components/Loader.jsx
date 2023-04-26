@@ -16,8 +16,8 @@ export const ChatLoader = () => {
 
 export const PageLoader = () => {
   return (
-    <div class="flex h-full">
-      <div class="m-auto">
+    <div className="flex h-full">
+      <div className="m-auto">
         <Spinner aria-label="Center-aligned spinner example" />
       </div>
     </div>

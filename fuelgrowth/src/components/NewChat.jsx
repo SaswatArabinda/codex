@@ -30,11 +30,6 @@ export default function NewChat() {
     }
   };
   return (
-    // <div className="border-grey-700 border chatRow">
-    //   <PlusIcon className="h-4 w-4" />
-    //   <p>New Chat</p>
-    // </div>
-
     <li onClick={(e) => createNewSession(e)}>
       <a
         href="#"

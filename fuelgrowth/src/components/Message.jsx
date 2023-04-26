@@ -13,9 +13,6 @@ import { MODALS } from "../constants/enums";
 import { sendFeedback } from "../services/messageService";
 import { updateMessageForSession } from "../redux/sessions/action";
 import { setError } from "../utils/errors";
-
-// import { useSelector } from "react-redux";
-
 // import TypeWriter from "typewriter-effect";
 
 /* <TypeWriter

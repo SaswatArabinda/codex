@@ -58,11 +58,9 @@ export const ChatPage = () => {
   return (
     <>
       <div className="p-4 w-full mt-14 overflow-hidden">
-        <div
-          // className="p-4 border-2 border-gray-200 rounded-lg dark:border-gray-700 h-full "
-          style={{ height: "90vh" }}
-        >
-          {loader ? (
+        <div style={{ height: "90vh" }}>
+          {/* Show loader when `loader` is true and there should not any previous chat sessions */}
+          {loader && !(Array.isArray(messages) && messages.length > 0) ? (
             <PageLoader />
           ) : (
             <div className="flex flex-col h-full">

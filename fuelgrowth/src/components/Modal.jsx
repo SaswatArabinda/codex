@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { Modal, Button } from "flowbite-react";
-import { HiOutlineExclamationCircle } from "@heroicons/react/24/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { MODALS } from "../constants/enums";
 import { hideModal } from "../redux/modal/action";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { sendFeedback } from "../services/messageService";
-import toast from "react-hot-toast";
 import { useRef } from "react";
-import { useLocation, useParams } from "react-router-dom";
 import { updateMessageForSession } from "../redux/sessions/action";
 import { setError } from "../utils/errors";
+import { authorizeIntegration } from "../services/integrationService";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { integrateSchema } from "../validations/integrateUser";
+import { FormErrorMessage } from "./FormErrorMessage";
 
 export const FeedbackModal = ({ isVisible, data }) => {
   const textAreaRef = useRef(null);
@@ -190,16 +191,129 @@ export const TermsAndConditionsModal = ({ isVisible, data }) => {
   );
 };
 
+export const IntegrationModal = ({ isVisible, data }) => {
+  const [loader, setLoader] = useState(false);
+  const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    watch,
+    control,
+  } = useForm({
+    resolver: yupResolver(integrateSchema),
+  });
+
+  const { fg_auth_url, is_integrated, logo_url, name, oauth_url } = data ?? {};
+
+  const signin = async (data) => {
+    const { email, password } = data;
+
+    try {
+      // Show loader/disable the buttons
+      setLoader(true);
+      // Signin the user
+      await authorizeIntegration(fg_auth_url, {
+        email,
+        password,
+      });
+      // Hide the modal
+      dispatch(hideModal(MODALS.FEEDBACK_MODAL, null));
+      // Refresh Integration Page
+      location.reload();
+    } catch (error) {
+      setError(error);
+    }
+    // Hide loader
+    setLoader(false);
+  };
+  const onClose = (e) => {
+    e.preventDefault();
+    // Hide the modal
+    dispatch(hideModal(MODALS.FEEDBACK_MODAL, null));
+  };
+
+  return (
+    <Modal show={isVisible} size="md" popup={true} onClose={onClose}>
+      <Modal.Header>
+        <div className="space-y-6 px-6 lg:px-8">
+          <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+            Sign in to our {name} platform
+          </h3>
+        </div>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="space-y-6 px-6 py-4 sm:pb-6 lg:px-8 xl:pb-8">
+          <form
+            className="space-y-4 md:space-y-6"
+            onSubmit={handleSubmit(signin)}
+          >
+            <div>
+              <label
+                htmlFor="email"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Your email
+              </label>
+              <input
+                type="email"
+                {...register("email")}
+                id="email"
+                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-[#2563eb] focus:border-[#2563eb] block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="name@company.com"
+                required=""
+              />
+              {errors.email && (
+                <FormErrorMessage errorMessage={errors.email?.message} />
+              )}
+            </div>
+            <div>
+              <label
+                htmlFor="password"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                {...register("password")}
+                id="password"
+                placeholder="••••••••"
+                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-[#2563eb] focus:border-[#2563eb] block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                required=""
+              />
+              {errors.password && (
+                <FormErrorMessage errorMessage={errors.password?.message} />
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={loader}
+              className="w-full text-white bg-[#2563eb] hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-[#2563eb] dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:bg-slate-500"
+            >
+              Sign in
+            </button>
+          </form>
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
+};
+
 export const ModalFC = () => {
   const modalState = useSelector((state) => state.modals);
   const feebackModalState = modalState?.modal?.[MODALS.FEEDBACK_MODAL];
   const termsAndConditionsModalState =
     modalState?.modal?.[MODALS.TERMS_AND_CONDITIONS_MODAL];
+  const integrationModalState = modalState?.modal?.[MODALS.INTEGRATION_MODAL];
 
   return (
     <>
       <FeedbackModal {...feebackModalState} />
       <TermsAndConditionsModal {...termsAndConditionsModalState} />
+      <IntegrationModal {...integrationModalState} />
     </>
   );
 };

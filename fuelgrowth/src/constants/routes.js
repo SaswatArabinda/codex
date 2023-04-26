@@ -14,6 +14,8 @@ export const API_ROUTES = {
   CREATE_NEW_CHAT_SESSION: "v1/chat/messages/",
 
   SEND_FEEDBACK: "v1/chat/messages/:messageId/",
+
+  INTEGRATION: "v1/integrations/list/all",
 };
 
 export const ROUTES = {

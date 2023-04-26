@@ -10,7 +10,7 @@ import { setError } from "../utils/errors";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const { REGISTER, DASHBOARD } = ROUTES;
   const {
@@ -25,7 +25,7 @@ export const Login = () => {
   });
 
   const onSubmit = async (data) => {
-    setIsSubmitted(true);
+    setLoader(true);
     try {
       const result = await login(data);
 
@@ -35,7 +35,7 @@ export const Login = () => {
     } catch (error) {
       setError(error);
     }
-    setIsSubmitted(false);
+    setLoader(false);
     reset();
   };
 
@@ -129,8 +129,8 @@ export const Login = () => {
               </div>
               <button
                 type="submit"
-                disabled={isSubmitted}
-                className="w-full text-white bg-[#2563eb] hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-[#2563eb] dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                disabled={loader}
+                className="w-full text-white bg-[#2563eb] hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-[#2563eb] dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:bg-slate-500"
               >
                 Sign in
               </button>

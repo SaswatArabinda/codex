@@ -85,7 +85,7 @@ const DeleteSessionCTA = ({ chatSessionId }) => {
               viewBox="0 0 24 24"
               strokeLinecap="round"
               strokeLinejoin="round"
-              class="h-4 w-4"
+              className="h-4 w-4"
               height="1em"
               width="1em"
               xmlns="http://www.w3.org/2000/svg"
@@ -105,7 +105,7 @@ const DeleteSessionCTA = ({ chatSessionId }) => {
               viewBox="0 0 24 24"
               strokeLinecap="round"
               strokeLinejoin="round"
-              class="h-4 w-4"
+              className="h-4 w-4"
               height="1em"
               width="1em"
               xmlns="http://www.w3.org/2000/svg"
@@ -171,14 +171,10 @@ export const SessionRow = ({
         to={generatePath(CHAT_PAGE, {
           sessionId: chat_session_id,
         })}
-        // className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 ${
-        //   isActive && "bg-gray-300 50"
-        // }`}
         className={`flex p-2 items-center text-sm gap-3 relative rounded-md cursor-pointer break-all text-gray-900  group ${
           isActive && "bg-gray-200 pr-10"
         } ${!isActive && "hover:bg-gray-100"}`}
       >
-        {/* <ChatBubbleLeftIcon className="h-4 w-4" /> */}
         <svg
           stroke="currentColor"
           fill="none"

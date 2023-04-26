@@ -26,8 +26,6 @@ const PrivateRoute = ({ Component }) => {
     initFlowbite();
   });
   const authUser = getAuthUser();
-
-  console.log("Is user authenticated", !!authUser);
   return authUser ? <Component /> : <Navigate to={LOGIN} replace />;
 };
 

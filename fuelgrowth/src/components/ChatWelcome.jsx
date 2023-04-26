@@ -8,8 +8,6 @@ import {
 export const ChatWelcome = ({ setPrompt }) => {
   const handleClick = (e) => {
     e.preventDefault();
-
-    console.log(e.target.innerText);
     setPrompt(e.target.innerText);
   };
   return (

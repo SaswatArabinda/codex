@@ -19,7 +19,6 @@ import { useDispatch } from "react-redux";
 import { generatePath, useNavigate, useParams } from "react-router-dom";
 import { NEW_SESSION } from "../constants/constant";
 import { setError } from "../utils/errors";
-// import { setErrorWhileFetchingMEssages } from "../redux/common/action";
 
 export const ChatInput = ({ prompt, setPrompt }) => {
   const { CHAT_PAGE } = ROUTES;
@@ -32,7 +31,7 @@ export const ChatInput = ({ prompt, setPrompt }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // dispatch(setErrorWhileFetchingMEssages(false));
+
     if (!prompt.trim()) return;
     const text = prompt.trim();
 
