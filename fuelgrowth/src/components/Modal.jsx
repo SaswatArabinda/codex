@@ -131,13 +131,75 @@ export const FeedbackModal = ({ isVisible, data }) => {
   );
 };
 
+export const TermsAndConditionsModal = ({ isVisible, data }) => {
+  const dispatch = useDispatch();
+
+  const onClose = (e) => {
+    e.preventDefault();
+    // Hide the modal
+    dispatch(hideModal(MODALS.TERMS_AND_CONDITIONS_MODAL, null));
+  };
+
+  return (
+    <Modal
+      className="h-full"
+      show={isVisible}
+      // size="md"
+      popup={true}
+      onClose={(e) => onClose(e)}
+    >
+      <Modal.Header>
+        <div className="flex items-center justify-between pt-2  px-4">
+          <div className="flex items-center">
+            <div className="text-center sm:text-left">
+              <h3
+                className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-200"
+                id="headlessui-dialog-title-:r4:"
+                data-headlessui-state="open"
+              >
+                Terms and conditions
+              </h3>
+            </div>
+          </div>
+        </div>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="space-y-6">
+          <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Alias,
+            praesentium? Esse similique eum eaque amet quae, explicabo non
+            voluptatum illo porro, at accusantium facere reiciendis sint et
+            quisquam ab reprehenderit.
+          </p>
+          <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel at esse
+            voluptatum sequi eaque dolores natus dignissimos cupiditate? Quas
+            nemo, repudiandae deserunt quia voluptate officia perferendis
+            quisquam, ipsum sit molestias laboriosam fugit, nesciunt architecto
+            ratione dicta perspiciatis expedita. Quam, qui ipsa. Quaerat
+            mollitia architecto rerum saepe in quisquam porro incidunt!
+          </p>
+          <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima
+            explicabo, sunt ipsam natus reiciendis aspernatur tempora. Minima
+            tempora quas incidunt!
+          </p>
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
+};
+
 export const ModalFC = () => {
   const modalState = useSelector((state) => state.modals);
   const feebackModalState = modalState?.modal?.[MODALS.FEEDBACK_MODAL];
+  const termsAndConditionsModalState =
+    modalState?.modal?.[MODALS.TERMS_AND_CONDITIONS_MODAL];
 
   return (
     <>
       <FeedbackModal {...feebackModalState} />
+      <TermsAndConditionsModal {...termsAndConditionsModalState} />
     </>
   );
 };

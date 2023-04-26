@@ -13,6 +13,9 @@ import "react-phone-input-2/lib/style.css";
 import { Link, useNavigate } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
 import { setError } from "../utils/errors";
+import { useDispatch } from "react-redux";
+import { showModal } from "../redux/modal/action";
+import { MODALS } from "../constants/enums";
 
 const PhoneInput = PI.default ? PI.default : PI;
 
@@ -20,6 +23,7 @@ export const Register = () => {
   const navigate = useNavigate();
   const [roles, setRoles] = useState();
   const [loader, setLoader] = useState();
+  const dispatch = useDispatch();
 
   const { LOGIN, DASHBOARD } = ROUTES;
   const {
@@ -32,6 +36,16 @@ export const Register = () => {
   } = useForm({
     resolver: yupResolver(registerUserSchema),
   });
+
+  const showTermsAndConditions = (e) => {
+    e.preventDefault();
+    dispatch(
+      showModal({
+        name: MODALS.TERMS_AND_CONDITIONS_MODAL,
+        data: {},
+      })
+    );
+  };
 
   const onSubmit = async (data) => {
     const {
@@ -275,6 +289,7 @@ export const Register = () => {
                     type="checkbox"
                     className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-[#2563eb] dark:ring-offset-gray-800"
                     required=""
+                    defaultChecked={true}
                   />
                 </div>
                 <div className="ml-3 text-sm">
@@ -284,8 +299,9 @@ export const Register = () => {
                   >
                     I accept the{" "}
                     <a
-                      className="font-medium text-[#2563eb] hover:underline dark:text-primary-500"
-                      href="#"
+                      className="font-medium text-[#2563eb] hover:underline dark:text-primary-500 cursor-pointer"
+                      // href="#"
+                      onClick={(e) => showTermsAndConditions(e)}
                     >
                       Terms and Conditions
                     </a>
