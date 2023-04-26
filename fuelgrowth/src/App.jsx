@@ -15,6 +15,7 @@ import { initFlowbite } from "flowbite";
 import { Integration } from "./pages/Integration";
 import { ModalFC } from "./components/Modal";
 import { PageNotFound } from "./pages/PageNotFound";
+import { PageLoader } from "./components/Loader";
 
 const { LOGIN, DASHBOARD, REGISTER, CHAT_PAGE, INTEGRATION, PAGE_NOT_FOUND } =
   ROUTES;
@@ -38,27 +39,29 @@ const router = createBrowserRouter([
       {
         path: DASHBOARD,
         element: <PrivateRoute Component={ChatPage} />,
-        // loader: teamLoader,
+        loader: PageLoader,
       },
       {
         path: CHAT_PAGE,
         element: <PrivateRoute Component={ChatPage} />,
-        // loader: teamLoader,
+        loader: PageLoader,
       },
       {
         path: INTEGRATION,
         element: <PrivateRoute Component={Integration} />,
-        // loader: teamLoader,
+        loader: PageLoader,
       },
     ],
   },
   {
     path: LOGIN,
     element: <Login />,
+    loader: PageLoader,
   },
   {
     path: REGISTER,
     element: <Register />,
+    loader: PageLoader,
   },
   {
     path: PAGE_NOT_FOUND,
@@ -67,10 +70,6 @@ const router = createBrowserRouter([
 ]);
 
 export const App = () => {
-  // useEffect(() => {
-  //   console.log("INIT CALLED");
-  //   initFlowbite();
-  // });
   return (
     <>
       <RouterProvider router={router} />

@@ -3,10 +3,9 @@ import { getChatSessions } from "../services";
 import { SessionRow } from "./SessionRow";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { Spinner } from "flowbite-react";
 import { setError } from "../utils/errors";
+import { PageLoader } from "./Loader";
 
 export const PreviousSessions = () => {
   const dispatch = useDispatch();
@@ -29,11 +28,7 @@ export const PreviousSessions = () => {
   }, [setLoading]);
 
   if (isLoading) {
-    return (
-      <div className="text-center mt-10">
-        <Spinner aria-label="Center-aligned spinner example" />
-      </div>
-    );
+    return <PageLoader />;
   }
 
   return (

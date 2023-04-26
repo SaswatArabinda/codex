@@ -13,7 +13,6 @@ import {
   Cell,
   PieChart,
   Pie,
-  Sector,
 } from "recharts";
 import { colors } from "../constants/colors";
 
