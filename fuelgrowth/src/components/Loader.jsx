@@ -1,7 +1,7 @@
 import React from "react";
 
 export const ChatLoader = () => {
-  let circleCommonClasses = "h-2.5 w-2.5 bg-current   rounded-full";
+  let circleCommonClasses = "h-1 w-1 bg-current rounded-full  text-gray-800";
 
   return (
     <div className="flex items-center">
