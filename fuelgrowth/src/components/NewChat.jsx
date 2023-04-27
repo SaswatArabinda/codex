@@ -3,7 +3,6 @@ import { addSession } from "../redux/sessionLists/actions";
 import { createSessionWithoutPrompt } from "../services";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import React from "react";
-import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { generatePath, useNavigate } from "react-router-dom";
 import { setError } from "../utils/errors";
