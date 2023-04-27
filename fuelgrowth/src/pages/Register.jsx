@@ -1,5 +1,5 @@
 import { FormErrorMessage } from "../components/FormErrorMessage";
-import { API_ROUTES, ROUTES } from "../constants/routes";
+import { ROUTES } from "../constants/routes";
 import { register as registerUser, getRoles } from "../services";
 import { registerUserSchema } from "../validations/registerUser";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,15 +7,12 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import toast from "react-hot-toast";
 import PI from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { Link, useNavigate } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
 import { setError } from "../utils/errors";
 import { useDispatch } from "react-redux";
-import { showModal } from "../redux/modal/action";
-import { MODALS } from "../constants/enums";
 
 const PhoneInput = PI.default ? PI.default : PI;
 
@@ -36,16 +33,6 @@ export const Register = () => {
   } = useForm({
     resolver: yupResolver(registerUserSchema),
   });
-
-  const showTermsAndConditions = (e) => {
-    e.preventDefault();
-    dispatch(
-      showModal({
-        name: MODALS.TERMS_AND_CONDITIONS_MODAL,
-        data: {},
-      })
-    );
-  };
 
   const onSubmit = async (data) => {
     const {
@@ -300,10 +287,20 @@ export const Register = () => {
                     I accept the{" "}
                     <a
                       className="font-medium text-[#2563eb] hover:underline dark:text-primary-500 cursor-pointer"
-                      // href="#"
-                      onClick={(e) => showTermsAndConditions(e)}
+                      href="https://app.termly.io/document/terms-and-conditions/fd296501-af28-4af8-ac87-0d2482084cfd"
+                      target="_blank"
+                      // onClick={(e) => showTermsAndConditions(e)}
                     >
                       Terms and Conditions
+                    </a>{" "}
+                    and{" "}
+                    <a
+                      className="font-medium text-[#2563eb] hover:underline dark:text-primary-500 cursor-pointer"
+                      href="https://app.termly.io/document/privacy-policy/62f44c4c-070a-4476-8b06-65696949aeb6"
+                      target="_blank"
+                      // onClick={(e) => showTermsAndConditions(e)}
+                    >
+                      Privacy Policy
                     </a>
                   </label>
                 </div>

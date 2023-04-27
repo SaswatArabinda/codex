@@ -4,12 +4,13 @@ import { Chat } from "./Chat";
 import { ChatInput } from "./ChatInput";
 import { ChatWelcome } from "./ChatWelcome";
 import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { NEW_SESSION } from "../constants/constant";
 import { setError } from "../utils/errors";
 import { PageLoader } from "./Loader";
+import { StaticChatpageAlert } from "./Alerts";
+import { getIntegrationListsHelper } from "../helper/getIntegrationListsHelper";
 
 // Chat
 // Chat Input
@@ -17,6 +18,7 @@ import { PageLoader } from "./Loader";
 export const ChatPage = () => {
   const [prompt, setPrompt] = useState("");
   const [loader, setLoader] = useState(false);
+  const [showAlertBanner, setAlertBanner] = useState(false);
   const sessionsState = useSelector((state) => state.sessions);
   const { sessionId } = useParams();
   const dispatch = useDispatch();
@@ -36,6 +38,26 @@ export const ChatPage = () => {
       })();
     }
   }, [sessionId, setLoader]);
+
+  // Fetch integration list to check if user has already integrated with Omnirio platform
+  useEffect(() => {
+    (async () => {
+      try {
+        // Fetch the integration lists
+        const result = await getIntegrationListsHelper();
+
+        // Loop through the integration and check if omnirio integration already done
+        result.forEach((list) => {
+          console.log(list);
+          if (list.name === "Omnirio") {
+            setAlertBanner(!list.is_integrated);
+          }
+        });
+      } catch (error) {
+        setError(error);
+      }
+    })();
+  }, [setAlertBanner]);
 
   let messages = [];
 
@@ -57,13 +79,17 @@ export const ChatPage = () => {
 
   return (
     <>
-      <div className="p-4 w-full mt-14 overflow-hidden">
+      <div className="w-full mt-14 overflow-hidden relative">
         <div style={{ height: "90vh" }}>
           {/* Show loader when `loader` is true and there should not any previous chat sessions */}
           {loader && !(Array.isArray(messages) && messages.length > 0) ? (
             <PageLoader />
           ) : (
             <div className="flex flex-col h-full">
+              {/* Alert badge */}
+              {showAlertBanner && <StaticChatpageAlert />}
+
+              {/* Load chat data */}
               {Array.isArray(messages) && messages.length > 0 ? (
                 <Chat messages={messages} />
               ) : (

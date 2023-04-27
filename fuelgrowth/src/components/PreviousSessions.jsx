@@ -1,11 +1,11 @@
 import { setSessions } from "../redux/sessionLists/actions";
-import { getChatSessions } from "../services";
 import { SessionRow } from "./SessionRow";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setError } from "../utils/errors";
 import { PageLoader } from "./Loader";
+import { getChatSessionsHelper } from "../helper/getChatSessionsHelper";
 
 export const PreviousSessions = () => {
   const dispatch = useDispatch();
@@ -18,8 +18,9 @@ export const PreviousSessions = () => {
     setLoading(true);
     (async () => {
       try {
-        const result = await getChatSessions();
-        dispatch(setSessions(result.data.results));
+        // Fetch the session list
+        const result = await getChatSessionsHelper();
+        dispatch(setSessions(result));
       } catch (error) {
         setError(error);
       }

@@ -235,16 +235,22 @@ export const IntegrationModal = ({ isVisible, data }) => {
   };
 
   return (
-    <Modal show={isVisible} size="md" popup={true} onClose={onClose}>
-      <Modal.Header>
+    <Modal
+      show={isVisible}
+      size="md"
+      popup={true}
+      onClose={onClose}
+      className="h-full"
+    >
+      <Modal.Header className="pb-1 border-b-0">
         <div className="space-y-6 px-6 lg:px-8">
-          <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-            Sign in to our {name} platform
+          <h3 className="text-md font-medium text-gray-900 dark:text-white">
+            Securely sign in to your {name} account
           </h3>
         </div>
       </Modal.Header>
       <Modal.Body>
-        <div className="space-y-6 px-6 py-4 sm:pb-6 lg:px-8 xl:pb-8">
+        <div className="space-y-6 px-6 py-4 lg:px-8 pb-0">
           <form
             className="space-y-4 md:space-y-6"
             onSubmit={handleSubmit(signin)}
@@ -296,6 +302,9 @@ export const IntegrationModal = ({ isVisible, data }) => {
               Sign in
             </button>
           </form>
+          <div className="text-sm font-medium text-gray-500 dark:text-gray-300 text-center">
+            Fuelgrowth is developed by Omnirio
+          </div>
         </div>
       </Modal.Body>
     </Modal>

@@ -2,12 +2,12 @@ import React from "react";
 import { Card } from "flowbite-react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { getIntegrationList } from "../services/integrationService";
 import { PageLoader } from "../components/Loader";
 import { useDispatch } from "react-redux";
 import { MODALS } from "../constants/enums";
 import { setError } from "../utils/errors";
 import { showModal } from "../redux/modal/action";
+import { getIntegrationListsHelper } from "../helper/getIntegrationListsHelper";
 
 export const Integration = () => {
   const [loader, setLoader] = useState(false);
@@ -31,9 +31,10 @@ export const Integration = () => {
     (async () => {
       setLoader(true);
       try {
-        const result = await getIntegrationList();
+        // Fetch the integration lists
+        const result = await getIntegrationListsHelper();
 
-        setIntegrationList(result.data.results);
+        setIntegrationList(result);
       } catch (error) {
         setError(error);
       }
@@ -42,7 +43,7 @@ export const Integration = () => {
   }, [setLoader, setIntegrationList]);
 
   if (loader) {
-    return <PageLoader />;
+    return <PageLoader className="h-screen " />;
   }
   return (
     <div className="p-4 w-full mt-14 overflow-hidden">
